@@ -3,9 +3,14 @@ const http = require('http');
 const path = require('path');
 const app = express();
 
-app.get('/', (req, res) => res.send('Caps community API'));
+app.use(express.static(path.join(__dirname,'dist')));
+app.get('*', (req, res) => {
+  res.sendfile(path.join(__dirname, 'dist/index.html'))
+});
 
 const port = process.env.port || '4201';
 app.set('port', port);
-app.listen(port, () => console.log('Running on port: ' + port));
+
+const server = http.createServer(app);
+server.listen(port, () => console.log('Running on port: ' + port));
 
