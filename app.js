@@ -8,7 +8,7 @@ app.get('*', (req, res) => {
   res.sendfile(path.join(__dirname, 'dist/index.html'))
 });
 
-const port = process.env.port || '4201';
+const port = process.env.PORT || '4201';
 app.set('port', port);
 
 const server = http.createServer(app);
