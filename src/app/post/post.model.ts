@@ -1,4 +1,7 @@
 
+import {User} from "../shared/user.model";
+import {Comment} from "../comment/comment.model";
+
 export class Post {
 
   constructor(
@@ -7,8 +10,8 @@ export class Post {
     public description: string,
     public made_by: string,
     public image_path: string,
-    public comments: string, // will be commentobject
-    public user: string // will be userobject
+    public comments: Comment[], // will be commentobject
+    public user: User // will be userobject
   ) { }
 
 }
