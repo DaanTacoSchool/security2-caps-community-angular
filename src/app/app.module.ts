@@ -14,6 +14,11 @@ import { CommentItemComponent } from './comment/comment-list/comment-item/commen
 import { CommentService } from "./comment/comment.service";
 import { LikeComponent } from './like/like.component';
 import { LikeService } from "./like/like.service";
+import { HeaderComponent } from './header/header.component';
+import { PostEditComponent } from './post/post-edit/post-edit.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {AppRoutingModule} from "./app-routing.module";
+import {HttpModule} from "@angular/http";
 
 
 @NgModule({
@@ -27,10 +32,16 @@ import { LikeService } from "./like/like.service";
     CommentComponent,
     CommentListComponent,
     CommentItemComponent,
-    LikeComponent
+    LikeComponent,
+    HeaderComponent,
+    PostEditComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    HttpModule
   ],
   providers: [PostService, CommentService, LikeService],
   bootstrap: [AppComponent]
