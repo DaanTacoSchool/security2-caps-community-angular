@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Post} from "./post.model";
 import { PostService } from './post.service';
-import { post } from 'selenium-webdriver/http';
 
 @Component({
   selector: 'app-post',
@@ -21,7 +20,6 @@ export class PostComponent implements OnInit {
    })
    .catch((error) => {
      console.log(error);
-   })
+   });
   }
-
 }
