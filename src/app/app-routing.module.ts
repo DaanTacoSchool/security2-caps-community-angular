@@ -4,6 +4,7 @@ import {PostComponent} from "./post/post.component";
 import {PostStartComponent} from "./post/post-start/post-start.component";
 import {PostDetailComponent} from "./post/post-detail/post-detail.component";
 import {PostEditComponent} from "./post/post-edit/post-edit.component";
+import {PostListComponent} from "./post/post-list/post-list.component";
 
 const appRoutes: Routes = [
 
@@ -15,7 +16,8 @@ const appRoutes: Routes = [
   // ]},
   { path: '', redirectTo: '/post', pathMatch: 'full' },
   { path: 'post', component: PostComponent, children: [
-    { path: '', component: PostStartComponent },
+    // { path: '', component: PostStartComponent },
+    { path: '', component: PostListComponent },
     { path: 'new', component: PostEditComponent },
     { path: ':id', component: PostDetailComponent },
     { path: ':id/edit', component: PostEditComponent },
