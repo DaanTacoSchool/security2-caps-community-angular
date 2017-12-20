@@ -7,7 +7,9 @@
     <div class="card-block">
       <h4 class="card-title">{{post.title}}</h4>
       <p class="card-text">{{post.description}}</p>
-      <p class="font-weight-bold">{{post.Comment.content}}</p>
+      <div *ngIf="post.comment.length > 0">
+        <p class="font-weight-bold">{{post.comment.content}}</p>
+      </div>
       <form class="form-inline">
           <label class="sr-only" for="inlineFormInput">Comment</label>
           <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Comment">       
