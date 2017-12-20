@@ -36,10 +36,10 @@ export class PostService {
 
   /* ---- for development only -----*/
   getPostWithCommentsTest():Post{
-    const usr:User= new User('id','name', 'city', 'country', 'address', 'postcode', 'email');
-    const comm:Comment = new Comment('commid','postid','the comment content', usr);
+    const usr:User= new User('123456789', 'Hebury', 'Ruben Hensen', 'Waalwijk', 'Nederland', 'Hogeschoollaan', '4954', 'hebury@gmail.com');
+    const comm:Comment = new Comment('123456','1234','the comment content', usr);
     const comArr:Comment[] = [comm,comm];
-    return new Post('testid','title', 'description','madeby', 'imageurl', comArr,usr);
+    return new Post('1234','Polaroid', 'Polaroid foto','Hebury', 'imageurl', comArr,usr);
   }
   /* ---- for development only -----*/
 

@@ -1,13 +1,19 @@
-<div class="card" style="width: 20rem;">
-    <h3 class="card-title">{{post.made_by}}</h3>
+<div class="row">
+  <div class="card">
+    <div class="card-block">
+    <h4 class="card-title">{{post.made_by}}</h4>
+  </div>
     <img class="card-img-top" src="https://3.img-dpreview.com/files/p/E~TS590x0~articles/7106292979/14122574442_4eeb0ca97d_k.jpeg" alt="Card image cap">
     <div class="card-block">
       <h4 class="card-title">{{post.title}}</h4>
       <p class="card-text">{{post.description}}</p>
+      <p class="font-weight-bold">{{post.Comment.content}}</p>
       <form class="form-inline">
           <label class="sr-only" for="inlineFormInput">Comment</label>
           <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Comment">       
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-light">Submit</button>
         </form>
     </div>
   </div>
+</div>
+<br>
