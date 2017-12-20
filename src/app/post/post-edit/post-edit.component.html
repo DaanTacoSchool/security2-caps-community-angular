@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col-xs-12">
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()" #f="ngForm">
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label class="white" for="title">Title</label>
+            <input
+              type="text"
+              id="title"
+              formControlName="title"
+              class="form-control" ngModel
+              required="true" >
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label class="white" for="made_by">made by</label>
+            <input
+              type="text"
+              id="made_by"
+              formControlName="made_by"
+              class="form-control"
+              ngModel
+              required
+              #made_by>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label class="white" for="description">Description</label>
+            <textarea
+              type="text"
+              id="description"
+              class="form-control"
+              formControlName="description"
+              rows="6"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label class="white" for="image_path">image</label>
+            <input
+              type="text"
+              id="image_path"
+              formControlName="image_path"
+              class="form-control" ngModel
+              required="true" >
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <button
+            type="submit"
+            class="btn btn-success"  [disabled]="!postForm.valid" >Post!</button>
+          <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+        </div>
+      </div>
+      <!--<div class="row">-->
+        <!--<div class="col-xs-12">-->
+          <!--<a class="btn btn-primary" (click)="goToOverview()">go to card overview</a>-->
+        <!--</div>-->
+      <!--</div>-->
+    </form>
+  </div>
+</div>
