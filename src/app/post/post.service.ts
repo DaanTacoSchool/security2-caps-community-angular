@@ -5,6 +5,7 @@ import {Post} from "./post.model";
 import { Http, Headers } from '@angular/http';
 import { Comment} from "../comment/comment.model";
 import {User} from "../shared/user.model";
+import {Like} from "../shared/like.model";
 
 
 @Injectable()
@@ -14,6 +15,7 @@ export class PostService {
   private posts: Post[] = [];
   public postsChanged = new Subject<Post[]>();
   public postChanged = new Subject<Post>();
+  private debug = environment.debug;
 
 
   constructor(private http: Http) { }
@@ -36,10 +38,18 @@ export class PostService {
 
   /* ---- for development only -----*/
   getPostWithCommentsTest():Post{
+<<<<<<< HEAD
     const usr:User= new User('123456789', 'Hebury', 'Ruben Hensen', 'Waalwijk', 'Nederland', 'Hogeschoollaan', '4954', 'hebury@gmail.com');
     const comm:Comment = new Comment('123456','1234','the comment content', usr);
     const comArr:Comment[] = [comm,comm];
     return new Post('1234','Polaroid', 'Polaroid foto','Hebury', 'imageurl', comArr,usr);
+=======
+    const usr:User= new User('id','name', 'city', 'country', 'address', 'postcode', ' username' ,'email');
+    const comm:Comment = new Comment('commid','postid','the comment content', usr);
+    const comArr:Comment[] = [comm,comm];
+    const tstLike:Like = new Like('id','userid', ' postid');
+    return new Post('testid','title', 'description','madeby', 'imageurl', comArr,usr,[tstLike]);
+>>>>>>> origin/master
   }
   /* ---- for development only -----*/
 
@@ -53,9 +63,21 @@ export class PostService {
         return this.posts;
       })
       .catch(error => {
-        console.log(error);
-        // TODO do not return error
-        return  error;
+        this.debug?console.log(error):false;
+        return  this.handleError(error);
+      });
+  }
+
+  getPost(postId: string): Promise<Post> {
+    return this.http.get(this.serverUrl + '/' + postId, { headers: this.headers })
+      .toPromise()
+      .then(response => {
+        // TODO: maybe subscription .next?
+        return response.json() as Post;
+
+      })
+      .catch(error => {
+        return this.handleError(error);
       });
   }
 
@@ -69,6 +91,7 @@ export class PostService {
         const tmpPost = response.json() as Post;
         this.posts.push(tmpPost);
         this.postsChanged.next(this.posts.slice());
+        this.postChanged.next(tmpPost);
         return tmpPost;
       })
       .catch(error => {
@@ -102,6 +125,7 @@ export class PostService {
         const arrayIndex = this.posts.findIndex(x=>x._id === postId);
         this.posts[arrayIndex] = response.json() as Post;
         this.postsChanged.next(this.posts.slice());
+        this.postChanged.next(response.json() as Post); // TODO confirm if this works as supposed to
         return response.json() as Post;
       })
       .catch(error => {

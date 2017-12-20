@@ -7,7 +7,7 @@ export class Comment {
     public _id: string,
     public postId: string,
     public content: string,
-    public user: User // will be userobject
+    public user: User, // will be userobject
   ) { }
 
 }

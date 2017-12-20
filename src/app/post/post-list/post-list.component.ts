@@ -21,7 +21,7 @@ export class PostListComponent implements OnInit {
           this.posts = posts;
         }
       );
-    this.postService.getPostsTest()
+    this.postService.getPosts()
       .then(posts => {this.posts = posts; })
       .catch(error => console.log(error));
   }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Post} from "./post.model";
 import { PostService } from './post.service';
-import { post } from 'selenium-webdriver/http';
 
 @Component({
   selector: 'app-post',
@@ -15,13 +14,12 @@ export class PostComponent implements OnInit {
 
   ngOnInit() {
 
-   this.postService.getPostsTest()
+   this.postService.getPosts()
    .then((posts) => {
     this.posts = posts;
    })
    .catch((error) => {
      console.log(error);
-   })
+   });
   }
-
 }
