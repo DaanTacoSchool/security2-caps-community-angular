@@ -14,7 +14,7 @@ export class PostComponent implements OnInit {
 
   ngOnInit() {
 
-   this.postService.getPostsTest()
+   this.postService.getPosts()
    .then((posts) => {
     this.posts = posts;
    })
