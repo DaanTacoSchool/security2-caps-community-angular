@@ -2,6 +2,17 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.0.
 
+## Docker
+note: requires composer
+
+This app is dockerized. To use this with docker (without having to install node or npm etc.) run the following commands:
+on linux:
+
+Run `docker-compose build` in project root to build.
+Then run `docker-compose run --rm client npm install` to install npm in container. 
+Lastly to start the container run `docker-compose up` by default this displays debug info. to hide debug info append ` -d `.
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

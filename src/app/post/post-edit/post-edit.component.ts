@@ -21,6 +21,7 @@ export class PostEditComponent implements OnInit {
   editMode = false;
   postForm: FormGroup;
   private debug = environment.debug;
+  private showError = environment.displayErrors;
 
   private postSubscription: Subscription;
 
@@ -45,7 +46,7 @@ export class PostEditComponent implements OnInit {
     if(this.postId) {
       this.postService.getPost(this.postId.toString())
         .then(post => this.post = post)
-        .catch(error => this.debug?console.log(error):false );
+        .catch(error => this.showError?console.log(error):false );
     }
     this.initForm();
   }
@@ -118,7 +119,9 @@ export class PostEditComponent implements OnInit {
       this.postService.updatePost(this.postId,newPost); // ignore promise
     } else {
       this.debug?console.log('to postservice createpost'):false;
-      this.postService.createPost(newPost); // ignore promise
+      this.postService.createPost(newPost)
+          .then((post)=>{ this.post = post;})
+          .catch((error) => { this.showError?console.log(error):false;});
     }
     this.onCancel();
   }
