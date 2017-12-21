@@ -2,6 +2,14 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.0.
 
+## Docker
+
+This app is dockerized. To use this with docker (without having to install node or npm etc.) run the following commands:
+
+on linux:
+run `$ docker build -t capscommunity . ` to build the image and,
+run `$ docker run -p 8080:80 capscommunity` to run the app (with debug info use `-d -p` instead of `-p` to hide debug info).
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
