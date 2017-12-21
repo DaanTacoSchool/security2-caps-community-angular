@@ -30,7 +30,7 @@ export class CommentService {
   }
 
   private handleError(error: any): Promise<any> {
-    // for now always return errormessage. log it if either in debug or errorlogging is enabled
+    // for now always return errormessage. log it if either in debug or errorlogging is enabled the same as in post.service
     this.debug?console.log(error):false;
     this.showErrors?console.log(error):false;
     // TODO: determine wether to return generic error or specific error (if statement w/500 error?)
