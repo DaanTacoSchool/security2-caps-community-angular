@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {environment} from "../../environments/environment.prod";
 import {Subject} from "rxjs/Subject";
 import {Post} from "./post.model";
 import { Http, Headers } from '@angular/http';
 import { Comment} from "../comment/comment.model";
 import {User} from "../shared/user.model";
 import {Like} from "../shared/like.model";
+import {environment} from "../../environments/environment";
 
 
 @Injectable()
@@ -16,6 +16,7 @@ export class PostService {
   public postsChanged = new Subject<Post[]>();
   public postChanged = new Subject<Post>();
   private debug = environment.debug;
+  private showErrors = environment.displayErrors;
 
 
   constructor(private http: Http) { }
@@ -48,7 +49,6 @@ export class PostService {
 
 
   public getPosts(): Promise<Post[]> {
-
     return this.http.get(this.serverUrl, { headers: this.headers })
       .toPromise()
       .then(response => {
@@ -67,7 +67,6 @@ export class PostService {
       .then(response => {
         // TODO: maybe subscription .next?
         return response.json() as Post;
-
       })
       .catch(error => {
         return this.handleError(error);
@@ -75,9 +74,7 @@ export class PostService {
   }
 
   createPost(post: Post) {
-
     const d = post;
-
     return this.http.post(this.serverUrl , d)
       .toPromise()
       .then(response => {
@@ -122,7 +119,7 @@ export class PostService {
         return response.json() as Post;
       })
       .catch(error => {
-        console.log(error);
+        return this.handleError(error);
       });
   }
 
@@ -134,11 +131,15 @@ export class PostService {
         return response.json();
       })
       .catch(error => {
-        console.log(error);
+        return this.handleError(error);
       });
   }
 
   private handleError(error: any): Promise<any> {
+      // for now always return errormessage. log it if either in debug or errorlogging is enabled
+      this.debug?console.log(error):false;
+      this.showErrors?console.log(error):false;
+      // TODO: determine wether to return generic error or specific error (if statement w/500 error?)
     return Promise.reject(error.message || error);
   }
 

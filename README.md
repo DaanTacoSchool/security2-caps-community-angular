@@ -3,13 +3,15 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.0.
 
 ## Docker
+note: requires composer
 
 This app is dockerized. To use this with docker (without having to install node or npm etc.) run the following commands:
-
 on linux:
-run `$ docker build -t capscommunity . ` to build the image and,
-run `$ docker run -p 8080:80 capscommunity` to run the app (with debug info use `-d -p` instead of `-p` to hide debug info).
-The app will be available on `localhost:8080` .
+
+Run `docker-compose build` in project root to build.
+Then run `docker-compose run --rm client npm install` to install npm in container. 
+Lastly to start the container run `docker-compose up` by default this displays debug info. to hide debug info append ` -d `.
+
 
 ## Development server
 

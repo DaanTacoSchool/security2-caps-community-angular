@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Post} from "./post.model";
 import { PostService } from './post.service';
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-post',
@@ -9,6 +10,7 @@ import { PostService } from './post.service';
 })
 export class PostComponent implements OnInit {
   posts: Post[];
+  private showErrors = environment.displayErrors;
 
   constructor(public postService: PostService) { }
 
@@ -19,7 +21,7 @@ export class PostComponent implements OnInit {
     this.posts = posts;
    })
    .catch((error) => {
-     console.log(error);
+    this.showErrors?console.log(error):false;
    });
   }
 }
