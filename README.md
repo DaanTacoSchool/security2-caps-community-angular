@@ -9,6 +9,7 @@ This app is dockerized. To use this with docker (without having to install node 
 on linux:
 run `$ docker build -t capscommunity . ` to build the image and,
 run `$ docker run -p 8080:80 capscommunity` to run the app (with debug info use `-d -p` instead of `-p` to hide debug info).
+The app will be available on `localhost:8080` .
 
 ## Development server
 
