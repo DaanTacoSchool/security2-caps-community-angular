@@ -8,6 +8,7 @@ import {environment} from "../../../environments/environment";
 import {Comment} from "../../comment/comment.model";
 import {User} from "../../shared/user.model";
 import {Like} from "../../shared/like.model";
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 @Component({
   selector: 'app-post-edit',
@@ -15,6 +16,7 @@ import {Like} from "../../shared/like.model";
   styleUrls: ['./post-edit.component.css']
 })
 export class PostEditComponent implements OnInit {
+  modalRef: BsModalRef;
   posts: Post[];
   postId: string; // for editing
   post: Post;

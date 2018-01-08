@@ -18,7 +18,10 @@ export class PostItemComponent implements OnInit {
   }
 
   openModalWithComponent() {
-    this.bsModalRef = this.modalService.show(PostEditComponent);
+    this.bsModalRef = this.modalService.show(PostEditComponent, {class: 'modal-lg'});
+    this.bsModalRef.content.post = this.post;
+    this.bsModalRef.content.postId = this.post._id;
+    this.bsModalRef.content.modalRef = this.bsModalRef;
 }
 
 }
