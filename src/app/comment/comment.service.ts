@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
 import {Subject} from "rxjs/Subject";
+import {Comment} from "./comment.model";
 import { Http, Headers } from '@angular/http';
 
 @Injectable()
