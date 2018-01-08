@@ -21,6 +21,7 @@ const appRoutes: Routes = [
     { path: 'new', component: PostEditComponent },
     { path: ':id', component: PostDetailComponent },
     { path: ':id/edit', component: PostEditComponent },
+    { path: ':id/details', component: PostDetailComponent },
   ] },
   // { path: 'view', component: FeedComponent},
 

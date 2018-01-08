@@ -4,9 +4,11 @@
     <div class="card-block">
       <h4 class="card-title">{{post.title}}</h4>
       <p class="card-text">{{post.description}}</p>
+      {{post._id}}
+      {{post.comments}}
       <form class="form-inline">
           <label class="sr-only" for="inlineFormInput">Comment</label>
-          <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Comment">       
+          <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Comment">
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>

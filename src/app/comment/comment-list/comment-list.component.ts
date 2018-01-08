@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Comment} from "../comment.model";
 import {Subscription} from "rxjs/Subscription";
 import {environment} from "../../../environments/environment";
@@ -12,24 +12,43 @@ import {Post} from "../../post/post.model";
   styleUrls: ['./comment-list.component.css']
 })
 export class CommentListComponent implements OnInit {
-  posts: Post[] =[];
+  @Input() post: Post;
+  @Input() postId: string;
+  @Input() comments: Comment[];
+ // post: Post;
   commentsInPost: Comment[] =[];
-  postsSubscription: Subscription;
+  postSubscription: Subscription;
   commentsInPostSubscription: Subscription;
   private showErrors = environment.displayErrors;
   constructor(private postService: PostService, private commentService: CommentService) { }
 
   ngOnInit() {
-    this.postsSubscription = this.postService.postsChanged
+    this.postSubscription = this.postService.postChanged
         .subscribe(
-            (posts: Post[]) => {
-              this.posts = posts;
+            (post: Post) => {
+              this.post = post;
+              console.log('comments'); console.log(this.comments);
             }
         );
     // might be unnecessary
-    this.postService.getPosts()
-        .then(posts => {this.posts = posts; })
+    // this.postService.getPost(this.post._id)
+    this.postService.getPost(this.postId)
+        .then(post => {this.post = post;
+        console.log('commentlist-getpost: post, comments');console.log(this.post);console.log(this.post.comments); })
         .catch(error => this.showErrors?console.log(error):false);
+
+    this.commentsInPostSubscription = this.commentService.commentsInPostChanged
+      .subscribe(
+        (comments: Comment[]) => {
+          this.commentsInPost = comments;
+        }
+      );
+    this.commentService.getAllCommentsInPost(this.postId)
+    // this.commentService.getAllCommentsInPost(this.post._id)
+      .then(comments => {this.commentsInPost = comments; console.log('comment-list get all comments:'); console.log(comments); })
+      .catch(error => this.showErrors?console.log(error):false);
+
+
   }
 
 

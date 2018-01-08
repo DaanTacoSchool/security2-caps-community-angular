@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Comment} from "./comment.model";
 import {environment} from "../../environments/environment";
 import {CommentService} from "./comment.service";
@@ -11,7 +11,8 @@ import {Post} from "../post/post.model";
 })
 export class CommentComponent implements OnInit {
   commentsInPost: Comment[];
-  post: Post;
+   @Input() post: Post;
+  @Input() postId: string;
   private showErrors = environment.displayErrors;
   private debug = environment.debug;
 
@@ -19,10 +20,14 @@ export class CommentComponent implements OnInit {
 
   ngOnInit() {
 
-    this.commentService.getAllCommentsInPost(this.post._id)
+    console.log('post comment component');
+    // console.log(this.post);//UNDEFINED
+    console.log(this.postId);//id
+    this.commentService.getAllCommentsInPost(this.postId) //this.post._id this.postId
         .then((comments) => {
           this.commentsInPost = comments;
           this.debug?console.log(this.commentsInPost):false;
+
         })
         .catch((error) => {
           this.showErrors?console.log(error):false;
