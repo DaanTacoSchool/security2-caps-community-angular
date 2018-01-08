@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Post} from "../post.model";
 import {Subscription} from "rxjs/Subscription";
 import {PostService} from "../post.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-post-list',
@@ -12,6 +13,7 @@ export class PostListComponent implements OnInit {
 
   posts: Post[] =[];
   postsSubscription: Subscription;
+  private showErrors = environment.displayErrors;
   constructor(private postService: PostService) { }
 
   ngOnInit() {
@@ -23,7 +25,7 @@ export class PostListComponent implements OnInit {
       );
     this.postService.getPosts()
       .then(posts => {this.posts = posts; })
-      .catch(error => console.log(error));
+      .catch(error => this.showErrors?console.log(error):false);
   }
 
 }
