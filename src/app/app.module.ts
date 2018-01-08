@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BsDropdownModule, ModalModule  } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { PostComponent } from './post/post.component';
@@ -41,7 +42,9 @@ import {HttpModule} from "@angular/http";
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    HttpModule
+    HttpModule,
+    BsDropdownModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [PostService, CommentService, LikeService],
   bootstrap: [AppComponent]
