@@ -1,15 +1,30 @@
-<div class="card" style="width: 20rem;">
-    <h3 class="card-title">{{post.made_by}}</h3>
-    <img class="card-img-top" src="https://3.img-dpreview.com/files/p/E~TS590x0~articles/7106292979/14122574442_4eeb0ca97d_k.jpeg" alt="Card image cap">
+<div class="row">
+  <div class="card">
+    <div class="card-block">
+      <h4 class="align-middle d-inline-block card-title">{{post.made_by}}</h4>
+      <div dropdown class="d-inline-block dropdown float-right">
+        <a dropdownToggle class="btn dropdown-icon" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+        <ul *dropdownMenu class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <li>
+            <a class="dropdown-item" (click)="openModalWithComponent()">Edit</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <img class="card-img-top" src={{post.image_path}} alt="Card image cap">
     <div class="card-block">
       <h4 class="card-title">{{post.title}}</h4>
       <p class="card-text">{{post.description}}</p>
-      {{post._id}}
-      {{post.comments}}
+      <div *ngIf="post.comments.length > 0">
+        <p class="font-weight-bold">{{post.comments.content}}</p>
+      </div>
       <form class="form-inline">
           <label class="sr-only" for="inlineFormInput">Comment</label>
-          <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Comment">
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Comment">       
+          <button type="submit" class="btn btn-light">Submit</button>
         </form>
     </div>
   </div>
+</div>
+<br>
+

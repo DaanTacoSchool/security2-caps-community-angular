@@ -18,6 +18,7 @@ export class PostComponent implements OnInit {
 
    this.postService.getPosts()
    .then((posts) => {
+     console.dir(posts);
     this.posts = posts;
    })
    .catch((error) => {
