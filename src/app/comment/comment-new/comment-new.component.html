@@ -1,0 +1,21 @@
+<form [formGroup]="commentForm" (ngSubmit)="onSubmit()" #f="ngForm">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label class="white" for="content">content</label>
+        <input
+          type="text"
+          id="content"
+          formControlName="content"
+          class="form-control" ngModel
+          required="true" >
+      </div>
+      <div class="col-xs-12">
+        <button
+          type="submit"
+          class="btn btn-success"  [disabled]="!commentForm.valid" >comment!</button>
+        <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</form>
