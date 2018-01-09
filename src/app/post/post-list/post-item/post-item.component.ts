@@ -1,5 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Post} from "../../post.model";
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { PostEditComponent } from '../../post-edit/post-edit.component';
 
 @Component({
   selector: 'app-post-item',
@@ -8,9 +11,17 @@ import {Post} from "../../post.model";
 })
 export class PostItemComponent implements OnInit {
   @Input() post: Post;
-  constructor() { }
+  bsModalRef: BsModalRef;
+  constructor(private modalService: BsModalService) { }
 
   ngOnInit() {
   }
+
+  openModalWithComponent() {
+    this.bsModalRef = this.modalService.show(PostEditComponent, {class: 'modal-lg'});
+    this.bsModalRef.content.post = this.post;
+    this.bsModalRef.content.postId = this.post._id;
+    this.bsModalRef.content.modalRef = this.bsModalRef;
+}
 
 }
