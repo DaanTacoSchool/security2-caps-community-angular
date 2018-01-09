@@ -23,7 +23,7 @@ export class PostDetailComponent implements OnInit {
         (params: Params) => {
           this.postId = params['id'];
         });
-    this.postService.getPost(this.postId.toString())
+    this.postService.getPost(this.postId)
       .then(post => {this.post = post; this.debug?console.log('post in detail: '):false; this.debug?console.log(this.post):false;})
       .catch(error => this.showError?console.log(error):false );
   }

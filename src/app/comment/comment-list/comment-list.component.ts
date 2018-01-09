@@ -20,6 +20,7 @@ export class CommentListComponent implements OnInit {
   postSubscription: Subscription;
   commentsInPostSubscription: Subscription;
   private showErrors = environment.displayErrors;
+  private debug = environment.debug;
   constructor(private postService: PostService, private commentService: CommentService) { }
 
   ngOnInit() {
@@ -27,14 +28,17 @@ export class CommentListComponent implements OnInit {
         .subscribe(
             (post: Post) => {
               this.post = post;
-              console.log('comments'); console.log(this.comments);
+              this.debug?console.log('comments'):false;
+              this.debug?console.log(this.comments):false;
             }
         );
     // might be unnecessary
-    // this.postService.getPost(this.post._id)
     this.postService.getPost(this.postId)
         .then(post => {this.post = post;
-        console.log('commentlist-getpost: post, comments');console.log(this.post);console.log(this.post.comments); })
+          this.debug?console.log('commentlist-getpost: post, comments'):false;
+          this.debug?console.log(this.post):false;
+          this.debug?console.log(this.post.comments):false;
+        })
         .catch(error => this.showErrors?console.log(error):false);
 
     this.commentsInPostSubscription = this.commentService.commentsInPostChanged
@@ -45,7 +49,10 @@ export class CommentListComponent implements OnInit {
       );
     this.commentService.getAllCommentsInPost(this.postId)
     // this.commentService.getAllCommentsInPost(this.post._id)
-      .then(comments => {this.commentsInPost = comments; console.log('comment-list get all comments:'); console.log(comments); })
+      .then(comments => {this.commentsInPost = comments;
+            this.debug?console.log('comment-list get all comments:'):false;
+            this.debug?console.log(comments):false;
+      })
       .catch(error => this.showErrors?console.log(error):false);
 
 

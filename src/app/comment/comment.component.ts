@@ -20,9 +20,8 @@ export class CommentComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log('post comment component');
-    // console.log(this.post);//UNDEFINED
-    console.log(this.postId);//id
+    this.debug?console.log('post comment component'):false;
+    this.debug?console.log(this.postId):false;//id
     this.commentService.getAllCommentsInPost(this.postId) //this.post._id this.postId
         .then((comments) => {
           this.commentsInPost = comments;
