@@ -4,6 +4,7 @@ import {Subject} from "rxjs/Subject";
 import {Comment} from "./comment.model";
 import { Http, Headers } from '@angular/http';
 import {Post} from "../post/post.model";
+import {PostService} from "../post/post.service";
 
 @Injectable()
 export class CommentService {
@@ -12,9 +13,9 @@ export class CommentService {
   private commentsInPost: Comment[] = [];
   private debug = environment.debug;
   private showErrors = environment.displayErrors;
-  public commentsInPostChanged = new Subject<Comment[]>();
+  public commentsInPostChanged = new Subject<Comment[]>(); // Bugged?
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private postService: PostService) { }
 
   // TODO: this retreives all comments in a post. by default in post service only append like 3?
   getAllCommentsInPost(postId: string): Promise<Comment[]> {
@@ -26,7 +27,8 @@ export class CommentService {
           this.debug?console.log('commentService-getAllCommentsInPost1'):false;
           this.debug?console.log(this.commentsInPost):false;
 
-          this.commentsInPostChanged.next(this.commentsInPost.slice());
+
+          //this.commentsInPostChanged.next(this.commentsInPost.slice());
 
           this.debug?console.log('commentService-getAllCommentsInPost2'):false;
           this.debug?console.log(this.commentsInPost):false;
@@ -45,8 +47,9 @@ export class CommentService {
 
 
         this.commentsInPost.push(tmpComment);
-        this.commentsInPostChanged.next(this.commentsInPost.slice());
+       // this.commentsInPostChanged.next(this.commentsInPost.slice());
 
+       // this.postService.getPost()
         this.debug?console.log('commentService create comment'):false;
         this.debug?console.log(tmpComment):false;
 

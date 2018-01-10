@@ -14,24 +14,31 @@ import {Post} from "../../post/post.model";
 export class CommentListComponent implements OnInit {
   @Input() post: Post;
   @Input() postId: string;
-  @Input() comments: Comment[];
+ // @Input()
+  comments: Comment[];
  // post: Post;
   commentsInPost: Comment[] =[];
   postSubscription: Subscription;
   commentsInPostSubscription: Subscription;
   private showErrors = environment.displayErrors;
   private debug = environment.debug;
-  constructor(private postService: PostService, private commentService: CommentService) { }
+  constructor(private postService: PostService, private commentService: CommentService) {
+
+  }
 
   ngOnInit() {
-    this.postSubscription = this.postService.postChanged
+    /*this.postSubscription = this.postService.postChanged
         .subscribe(
             (post: Post) => {
               this.post = post;
+              // ---
+              this.commentsInPost = post.comments;
+              this.comments = post.comments;
+              // --
               this.debug?console.log('comments'):false;
               this.debug?console.log(this.comments):false;
             }
-        );
+        );*/
     // might be unnecessary
     this.postService.getPost(this.postId)
         .then(post => {this.post = post;
@@ -41,12 +48,15 @@ export class CommentListComponent implements OnInit {
         })
         .catch(error => this.showErrors?console.log(error):false);
 
-    this.commentsInPostSubscription = this.commentService.commentsInPostChanged
+    //should only be executed when comments for this post are updated
+    // why isnt this updated with the postchange?
+   /* this.commentsInPostSubscription = this.commentService.commentsInPostChanged
       .subscribe(
         (comments: Comment[]) => {
+         // console.log('updated id:'+this.postId);
           this.commentsInPost = comments;
         }
-      );
+      );*/
     this.commentService.getAllCommentsInPost(this.postId)
     // this.commentService.getAllCommentsInPost(this.post._id)
       .then(comments => {this.commentsInPost = comments;

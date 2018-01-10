@@ -22,15 +22,16 @@ export class CommentComponent implements OnInit {
 
     this.debug?console.log('post comment component'):false;
     this.debug?console.log(this.postId):false;//id
-    this.commentService.getAllCommentsInPost(this.postId) //this.post._id this.postId
-        .then((comments) => {
-          this.commentsInPost = comments;
-          this.debug?console.log(this.commentsInPost):false;
-
-        })
-        .catch((error) => {
-          this.showErrors?console.log(error):false;
-        });
+    // this.commentService.getAllCommentsInPost(this.postId) //this.post._id this.postId
+    //     .then((comments) => {
+    //       this.commentsInPost = comments;
+    //       this.debug?console.log('comment component comments in post:'):false;
+    //       this.debug?console.log(this.commentsInPost):false;
+    //
+    //     })
+    //     .catch((error) => {
+    //       this.showErrors?console.log(error):false;
+    //     });
   }
 
 }
