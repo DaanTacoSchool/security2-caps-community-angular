@@ -3,8 +3,6 @@ import {environment} from "../../environments/environment";
 import {Subject} from "rxjs/Subject";
 import {Comment} from "./comment.model";
 import { Http, Headers } from '@angular/http';
-import {Post} from "../post/post.model";
-import {PostService} from "../post/post.service";
 
 @Injectable()
 export class CommentService {
@@ -13,11 +11,12 @@ export class CommentService {
   private commentsInPost: Comment[] = [];
   private debug = environment.debug;
   private showErrors = environment.displayErrors;
-  public commentsInPostChanged = new Subject<Comment[]>(); // Bugged?
+  public commentsInPostChanged = new Subject<Comment[]>(); // dont delete
 
-  constructor(private http: Http, private postService: PostService) { }
+  constructor(private http: Http) { }
 
-  // TODO: this retreives all comments in a post. by default in post service only append like 3?
+
+  // could be used for detail pages or statistics etc.
   getAllCommentsInPost(postId: string): Promise<Comment[]> {
     return this.http.get(this.serverUrl + '/post/' + postId, { headers: this.headers }) // ~/comments/:postid
         .toPromise()
@@ -27,7 +26,7 @@ export class CommentService {
           this.debug?console.log('commentService-getAllCommentsInPost1'):false;
           this.debug?console.log(this.commentsInPost):false;
 
-
+          //Leave this here for now might be re-enabled when we get to detailed comments
           //this.commentsInPostChanged.next(this.commentsInPost.slice());
 
           this.debug?console.log('commentService-getAllCommentsInPost2'):false;
@@ -44,12 +43,10 @@ export class CommentService {
       .toPromise()
       .then(response => {
         const tmpComment = response.json() as Comment;
-
-
         this.commentsInPost.push(tmpComment);
-       // this.commentsInPostChanged.next(this.commentsInPost.slice());
 
-       // this.postService.getPost()
+        //Leave this here for now might be re-enabled when we get to detailed comments
+        // this.commentsInPostChanged.next(this.commentsInPost.slice());
         this.debug?console.log('commentService create comment'):false;
         this.debug?console.log(tmpComment):false;
 
@@ -61,40 +58,9 @@ export class CommentService {
       });
   }
 
-  /*
-  createCommentAndAddToPost(post: Post, comm:Comment) {
-    this.debug?console.log(' in create commentand add to post'):false;
-    this.debug?console.log(post.comments):false;
-
-    post.comments.push(comm);
-
-    this.debug?console.log('pushed'):false;
-    this.debug?console.log(post.comments):false;
-  //  let tmpPost = new Post({});
-    return this.http.post(this.serverUrl +'/p/'+post._id, [post,comm]) // new/
-      .toPromise()
-      .then(response => {
-        const tmpComment = response.json() as Comment;
-        this.commentsInPost.push(tmpComment);
-        this.commentsInPostChanged.next(this.commentsInPost.slice());
-
-        this.debug?console.log('commentService crate'):false;
-        this.debug?console.log(tmpComment):false;
-        this.debug?console.log('gelukt!!!'):false;
-
-        return tmpComment;
-      })
-      .catch(error => {
-        this.showErrors?console.log('errpor in create comment'):false;
-        return this.handleError(error);
-      });
-  }
-  */
   private handleError(error: any): Promise<any> {
-    // for now always return errormessage. log it if either in debug or errorlogging is enabled the same as in post.service
     this.debug?console.log(error):false;
     this.showErrors?console.log(error):false;
-    // TODO: determine wether to return generic error or specific error (if statement w/500 error?)
     return Promise.reject(error.message || error);
   }
 

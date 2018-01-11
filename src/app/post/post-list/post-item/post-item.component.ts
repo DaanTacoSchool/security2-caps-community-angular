@@ -11,6 +11,7 @@ import { PostEditComponent } from '../../post-edit/post-edit.component';
 })
 export class PostItemComponent implements OnInit {
   @Input() post: Post;
+  @Input() numComments?:number = 3;
   bsModalRef: BsModalRef;
   constructor(private modalService: BsModalService) { }
 

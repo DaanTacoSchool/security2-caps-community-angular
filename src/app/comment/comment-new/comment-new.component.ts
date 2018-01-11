@@ -41,8 +41,10 @@ export class CommentNewComponent implements OnInit {
   }
 
   onSubmit() {
+
     this.debug1?console.log('postid: ' + this.postId):false;
     this.debug?console.log('on submit new comment'):false;
+
     const newComment = new Comment(
       null,
       this.postId,
@@ -52,39 +54,33 @@ export class CommentNewComponent implements OnInit {
 
     this.postService.getPost(this.postId)
       .then(post => {this.post = post;
-      // createcomment pass post and update in postservice the array
+
+        //-----
         this.debug?console.log('commentnew-getpost: post, comments'):false;
         this.debug?console.log(this.post):false;
         this.debug?console.log(this.post.comments):false;
         this.debug?console.log('to commentService createComment'):false;
+        //-----
 
-          //this.commentService.createComment(this.postId, newComment)
        if(!this.post.comments){
          this.post.comments= [newComment];
        }
           this.commentService.createComment(this.postId, newComment)
-          .then((comment)=>{ this.comment = comment;
-          this.debug?console.log('comment-new:'):false;
-          this.debug?console.log(comment):false;
+          .then((comment)=>{
+            this.comment = comment;
 
-          //somehow only last id stays in memory
-        /*  if(this.comment.postId === this.postId) {
-            console.log(this.postId);
-            console.log(this.post._id);*/
-        let p = this.post;
+            //-----
+            this.debug?console.log('comment-new:'):false;
+            this.debug?console.log(comment):false;
+            //-----
+
+            const p = this.post;
             p.comments.push(comment);
-        //  }
-
-          console.log(p);
-          this.postService.updatePostInMemory(p);
-        // this.commentService.commentsInPostChanged.next()
-        //  this.postService.postChanged.next(this.post);//should do the trick!
-
-       })
+            this.postService.updatePostInMemory(p);
+          })
         .catch((error) => { this.showError?console.log(error):false;});
       })
       .catch(error => this.showError?console.log(error):false);
-  //  this.onCancel();
   }
 
 }
