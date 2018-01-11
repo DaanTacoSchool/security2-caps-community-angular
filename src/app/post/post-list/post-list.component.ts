@@ -13,6 +13,7 @@ export class PostListComponent implements OnInit {
 
   posts: Post[] =[];
   postsSubscription: Subscription;
+
   private showErrors = environment.displayErrors;
   constructor(private postService: PostService) { }
 
