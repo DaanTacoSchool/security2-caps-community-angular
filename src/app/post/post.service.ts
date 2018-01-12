@@ -6,6 +6,7 @@ import { Comment} from "../comment/comment.model";
 import {User} from "../shared/user.model";
 import {Like} from "../shared/like.model";
 import {environment} from "../../environments/environment";
+import {DEPRECATED_PLURAL_FN} from "@angular/common/src/i18n/localization";
 
 
 @Injectable()
@@ -66,6 +67,7 @@ export class PostService {
       .toPromise()
       .then(response => {
         // TODO: maybe subscription .next?
+        this.debug?console.log(response.json()):false;
         return response.json() as Post;
       })
       .catch(error => {
@@ -89,7 +91,8 @@ export class PostService {
       });
   }
 
-
+  // moved to comment service
+  /*
   addCommentToPost(post: Post, comment: Comment) {
     const d = post;
     const c = comment;
@@ -106,6 +109,7 @@ export class PostService {
         return this.handleError(error);
       });
   }
+*/
 
   updatePost(postId: string, newPost: Post) {
     // use post id in case somehow the new post does not have one
@@ -141,6 +145,18 @@ export class PostService {
       this.showErrors?console.log(error):false;
       // TODO: determine wether to return generic error or specific error (if statement w/500 error?)
     return Promise.reject(error.message || error);
+  }
+
+  // Subscriber helper methods
+  getPostsInMemory(){
+    return this.posts;
+  }
+  updatePostInMemory(tPost:Post){
+    console.log('this should be visible once');
+    const arrayIndex = this.posts.findIndex(x=>x._id === tPost._id);
+    this.posts[arrayIndex] = tPost;
+    this.postsChanged.next(this.posts.slice());
+    this.postChanged.next(tPost);
   }
 
 }

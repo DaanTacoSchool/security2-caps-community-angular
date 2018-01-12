@@ -11,17 +11,19 @@
         </ul>
       </div>
     </div>
-    <img class="card-img-top" src={{post.image_path}} alt="Card image cap">
+    <img class="card-img-top" [src]="post?.image_path" alt="Card image cap">
     <div class="card-block">
       <h4 class="card-title">{{post.title}}</h4>
       <p class="card-text">{{post.description}}</p>
-      <div *ngIf="post.comments.length > 0">
-        <p class="font-weight-bold">{{post.comments.content}}</p>
-      </div>
+      <!--<div *ngIf="post.comments.length > 0">-->
+        <!--<p class="font-weight-bold">{{post.comments.content}}</p>-->
+      <!--</div>-->
+      <app-comment [postId]="post._id" [post]="post" [numComments]="numComments"></app-comment>
       <form class="form-inline">
-          <label class="sr-only" for="inlineFormInput">Comment</label>
-          <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Comment">       
-          <button type="submit" class="btn btn-light">Submit</button>
+          <!--<label class="sr-only" for="inlineFormInput">Comment</label>-->
+          <!--<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Comment">-->
+          <!--<button type="submit" class="btn btn-light">Submit</button>-->
+        <app-comment-new [postId]="post._id" [post]="post" ></app-comment-new>
         </form>
     </div>
   </div>

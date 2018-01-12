@@ -2,6 +2,7 @@
   <div class="row">
     <div class="col-md-0 col-lg-3"></div>
       <div class="col-md-12 col-lg-6">
+        <!--you can set [numComments]="x" in app-post-item if needed when not supplied it will default to 3-->
         <app-post-item
           *ngFor="let post of posts;"
           [post]="post">
