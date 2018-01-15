@@ -1,0 +1,12 @@
+import { Injectable } from '@angular/core';
+import { environment } from "../../environments/environment";
+
+@Injectable()
+export class BaseService {
+  protected baseUri: string;
+
+  constructor() {
+      this.baseUri = environment.serverUrl;
+  }
+
+}
