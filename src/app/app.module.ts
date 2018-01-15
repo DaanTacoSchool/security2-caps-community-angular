@@ -37,7 +37,8 @@ import { CommentNewComponent } from './comment/comment-new/comment-new.component
     LikeComponent,
     HeaderComponent,
     PostEditComponent,
-    CommentNewComponent
+    CommentNewComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -47,6 +48,9 @@ import { CommentNewComponent } from './comment/comment-new/comment-new.component
     HttpModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot()
+  ],
+  entryComponents: [
+    CommentComponent
   ],
   providers: [PostService, CommentService, LikeService],
   bootstrap: [AppComponent]
