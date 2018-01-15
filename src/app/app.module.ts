@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { AlertModule, BsDropdownModule, ModalModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -23,7 +23,7 @@ import { HttpModule } from "@angular/http";
 import { CommentNewComponent } from './comment/comment-new/comment-new.component';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from "./services/auth.service";
-import {HttpClientModule} from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
 
 
 @NgModule({
@@ -43,7 +43,7 @@ import {HttpClientModule} from "@angular/common/http";
     CommentNewComponent,
     LoginComponent
   ],
-  entryComponents: [LoginComponent],
+  entryComponents: [LoginComponent, CommentComponent],
   imports: [
     BrowserModule,
     FormsModule,
