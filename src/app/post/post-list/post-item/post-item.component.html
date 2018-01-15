@@ -18,7 +18,9 @@
     <div class="card-block">
       <h4 class="card-title">{{post.title}}</h4>
       <p class="card-text">{{post.description}}</p>
+
       <app-comment-list [postId]="post._id" [post]="post" [numComments]="numComments"></app-comment-list>
+
       <form class="form-inline">
         <app-comment-new [postId]="post._id" [post]="post" ></app-comment-new>
         </form>

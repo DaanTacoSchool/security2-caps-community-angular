@@ -52,6 +52,7 @@ import { CommentNewComponent } from './comment/comment-new/comment-new.component
   entryComponents: [
     CommentComponent
   ],
+
   providers: [PostService, CommentService, LikeService],
   bootstrap: [AppComponent]
 })

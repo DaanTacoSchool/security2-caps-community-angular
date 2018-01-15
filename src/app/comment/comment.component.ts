@@ -15,8 +15,9 @@ export class CommentComponent implements OnInit {
   modalRef: BsModalRef;
   //private showErrors = environment.displayErrors;
   private debug = environment.debug;
+  bsModalRef: BsModalRef;
 
-  constructor() { }
+  constructor(private modalService: BsModalService) { }
 
   ngOnInit() {
 
@@ -27,4 +28,13 @@ export class CommentComponent implements OnInit {
     // }
   }
 
+  openModalWithComponent() {
+    console.log("dikke test");
+    console.log(this.post._id);
+    this.bsModalRef = this.modalService.show(CommentListComponent, {class: 'modal-lg'});
+    this.bsModalRef.content.post = this.post;
+    this.bsModalRef.content.numComment = 0;
+    this.bsModalRef.content.postId = this.post._id;
+    // this.bsModalRef.content.modalRef = this.bsModalRef;
+  }
 }
