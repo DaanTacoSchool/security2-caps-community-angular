@@ -48,6 +48,7 @@ import { CommentNewComponent } from './comment/comment-new/comment-new.component
     BsDropdownModule.forRoot(),
     ModalModule.forRoot()
   ],
+  entryComponents:[CommentListComponent],
   providers: [PostService, CommentService, LikeService],
   bootstrap: [AppComponent]
 })
