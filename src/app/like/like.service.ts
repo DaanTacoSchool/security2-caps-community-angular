@@ -18,7 +18,7 @@ export class LikeService {
   getLikesOfPost(postId: string): Promise<Like[]> {
     let url = `${this.serverUrl}/${postId}`;
 
-    return this.http.get(url, { headers: this.headers})
+    return this.http.get(url, {headers: this.headers})
       .toPromise()
       .then(response => {
         return response.json() as Like[];
@@ -31,7 +31,7 @@ export class LikeService {
   getLikesOfUser(userId: string): Promise<Like[]> {
     let url = `${this.serverUrl}/${userId}`;
 
-    return this.http.get(url, { headers: this.headers})
+    return this.http.get(url, {headers: this.headers})
       .toPromise()
       .then(response => {
         return response.json() as Like[];
@@ -42,12 +42,28 @@ export class LikeService {
 
   // Create a like
   createLike(like: Like) {
-    return this.http.post(this.serverUrl, like)
+    let body = { user: `${like.userId}`, post: `${like.postId}`};
+    return this.http.post(this.serverUrl, body, {headers: this.headers})
       .toPromise()
       .then(response => {
         return response.json() as Like;
-      })
+      }).catch(error => {
+        return this.handleError(error);
+      });
   } 
+  
+  // Delete a like
+  deleteLike(like: Like) {
+    let url = `${this.serverUrl}/${like._id}`;
+    return this.http.delete(url, {headers: this.headers})
+      .toPromise()
+      .then(response => {
+        return response.json() as string;
+      }).catch(error => {
+        return this.handleError(error);
+      });
+  }
+
   private handleError(error: any): Promise<any> {
     console.log(error);
     return Promise.reject(error.message);
