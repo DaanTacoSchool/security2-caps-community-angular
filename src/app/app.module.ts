@@ -17,10 +17,13 @@ import { LikeComponent } from './like/like.component';
 import { LikeService } from "./like/like.service";
 import { HeaderComponent } from './header/header.component';
 import { PostEditComponent } from './post/post-edit/post-edit.component';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AppRoutingModule} from "./app-routing.module";
-import {HttpModule} from "@angular/http";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { AppRoutingModule } from "./app-routing.module";
+import { HttpModule } from "@angular/http";
 import { CommentNewComponent } from './comment/comment-new/comment-new.component';
+import { LoginComponent } from './login/login.component';
+import { AuthService } from "./services/auth.service";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -37,18 +40,21 @@ import { CommentNewComponent } from './comment/comment-new/comment-new.component
     LikeComponent,
     HeaderComponent,
     PostEditComponent,
-    CommentNewComponent
+    CommentNewComponent,
+    LoginComponent
   ],
+  entryComponents: [LoginComponent],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
     HttpModule,
+    HttpClientModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot()
   ],
-  providers: [PostService, CommentService, LikeService],
+  providers: [PostService, CommentService, LikeService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

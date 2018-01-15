@@ -40,7 +40,7 @@ export class PostService {
 
   /* ---- for development only -----*/
   getPostWithCommentsTest():Post{
-    const usr:User= new User('id','name', 'city', 'country', 'address', 'postcode', ' username' ,'email');
+    const usr:User= new User(0,'', '', '', '', '', '' , []);
     const comm:Comment = new Comment('commid','postid','the comment content', usr);
     const comArr:Comment[] = [comm,comm];
     const tstLike:Like = new Like('id','userid', ' postid');
