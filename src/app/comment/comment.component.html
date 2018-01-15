@@ -1,3 +1,4 @@
+<div *ngIf="post !== undefined" class="modal-body">
 <div class="row">
   <div class="col-md-12">
   <app-comment-list
@@ -5,7 +6,8 @@
   [postId]="postId"
   [numComments]="numComments"
   ></app-comment-list>
-  <button (click)="openModalWithComponent()">Show all comments...</button>
+    <button type="button" class="btn btn-danger" (click)="modalRef.hide()">Cancel</button>
   </div>
   <!--[comments]="commentsInPost"-->
+</div>
 </div>

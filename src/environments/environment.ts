@@ -5,7 +5,6 @@
 
 export const environment = {
   production: false,
-  // serverUrl: 'http://localhost:3000'
   serverUrl: 'https://capscommunitybackend.herokuapp.com/api/v1',
   //debug lvl 0
   debug: false,

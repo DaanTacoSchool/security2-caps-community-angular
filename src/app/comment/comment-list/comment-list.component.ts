@@ -24,42 +24,19 @@ export class CommentListComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    if (this.postId != null){
-    this.showPost();
-      }
-
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log('changes;' + JSON.stringify(changes));
-    if (this.postId != null){
-      this.showPost();
-        }
-  }
-
-  showPost() {
     this.postService.getPost(this.postId)
         .then(post => {
-          //trunc array
-
-          console.log('numcomments:'+this.numComments);
-          console.log(this.post.comments.length);
-          console.log(post.comments.length-(this.numComments?this.numComments:post.comments.length) + ' -' +  (post.comments.length-1));
-
-          const comments = post.comments.slice((
-            post.comments.length-(this.numComments?this.numComments:post.comments.length))
-          );
-
-          //the order of this is important, this order will minimize the time the full comment list is visible on update
-          post.comments =comments;
+          let comments;
+          //check wther to show all comments or set amounnt
+          if(this.numComments!==0) {
+            comments = post.comments.slice((
+              post.comments.length - (this.numComments ? this.numComments : post.comments.length))
+            );
+            post.comments =comments;
+          }else{
+            this.debug?console.log('show all comments'):false;
+          }
           this.post =post;
-          console.log(comments);
-          console.log(this.post.comments.length);
-
-          this.debug?console.log('commentlist-getpost: post, comments'):false;
-          this.debug?console.log(this.post):false;
-          this.debug?console.log(this.post.comments):false;
-
         })
         .catch(error => this.showErrors?console.log(error):false);
       }

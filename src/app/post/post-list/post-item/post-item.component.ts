@@ -3,6 +3,7 @@ import {Post} from "../../post.model";
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { PostEditComponent } from '../../post-edit/post-edit.component';
+import {CommentComponent} from "../../../comment/comment.component";
 
 @Component({
   selector: 'app-post-item',
@@ -13,9 +14,11 @@ export class PostItemComponent implements OnInit {
   @Input() post: Post;
   @Input() numComments?:number = 3;
   bsModalRef: BsModalRef;
+  bsModalRefComments: BsModalRef;
   constructor(private modalService: BsModalService) { }
 
   ngOnInit() {
+    console.log(this.post._id);
   }
 
   openModalWithComponent() {
@@ -23,6 +26,13 @@ export class PostItemComponent implements OnInit {
     this.bsModalRef.content.post = this.post;
     this.bsModalRef.content.postId = this.post._id;
     this.bsModalRef.content.modalRef = this.bsModalRef;
-}
+  }
+  openCommentsModalWithComponent() {
+    this.bsModalRefComments = this.modalService.show(CommentComponent, {class: 'modal-lg'});
+    this.bsModalRefComments.content.post = this.post;
+    this.bsModalRefComments.content.postId = this.post._id;
+    this.bsModalRefComments.content.numComments = 0;
+    this.bsModalRefComments.content.modalRef = this.bsModalRefComments;
+  }
 
 }
