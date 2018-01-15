@@ -14,12 +14,14 @@ export class LoginComponent implements OnInit {
   private modalRef: BsModalRef;
   private login: Login = new Login();
   private loading: boolean = false;
+  private error: { error: boolean, message: string };
 
   constructor(authService: AuthService) {
       this._authService = authService;
   }
 
   ngOnInit() {
+      this.error = { error: false, message: ''};
   }
 
   onSubmit() {
@@ -34,7 +36,8 @@ export class LoginComponent implements OnInit {
             this.modalRef.hide();
         },
         err => {
-            console.log("Error occured.");
+            this.loading = false;
+            this.error = { error: true, message: 'Could not login!'};
         }
     );
   }

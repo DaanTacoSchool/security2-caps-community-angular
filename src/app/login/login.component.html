@@ -1,5 +1,10 @@
 <div class="modal-body">
   <form (ngSubmit)="onSubmit()">
+    <div class="col-xs-12" *ngIf="error.error">
+      <alert type="danger">
+        {{error.message}}
+      </alert>
+    </div>
     <div class="col-xs-12">
       <div class="form-group">
         <label class="white" for="email">Email</label>

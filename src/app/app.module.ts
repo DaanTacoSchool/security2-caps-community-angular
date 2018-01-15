@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { BsDropdownModule, ModalModule  } from 'ngx-bootstrap';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { AlertModule, BsDropdownModule, ModalModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { PostComponent } from './post/post.component';
@@ -52,7 +52,8 @@ import {HttpClientModule} from "@angular/common/http";
     HttpModule,
     HttpClientModule,
     BsDropdownModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    AlertModule.forRoot()
   ],
   providers: [PostService, CommentService, LikeService, AuthService],
   bootstrap: [AppComponent]
