@@ -8,6 +8,9 @@
           <li>
             <a class="dropdown-item" (click)="openModalWithComponent()">Edit</a>
           </li>
+          <li>
+            <a class="dropdown-item" (click)="openCommentsModalWithComponent()">Comments</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -15,14 +18,8 @@
     <div class="card-block">
       <h4 class="card-title">{{post.title}}</h4>
       <p class="card-text">{{post.description}}</p>
-      <!--<div *ngIf="post.comments.length > 0">-->
-        <!--<p class="font-weight-bold">{{post.comments.content}}</p>-->
-      <!--</div>-->
-      <app-comment [postId]="post._id" [post]="post" [numComments]="numComments"></app-comment>
+      <app-comment-list [postId]="post._id" [post]="post" [numComments]="numComments"></app-comment-list>
       <form class="form-inline">
-          <!--<label class="sr-only" for="inlineFormInput">Comment</label>-->
-          <!--<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Comment">-->
-          <!--<button type="submit" class="btn btn-light">Submit</button>-->
         <app-comment-new [postId]="post._id" [post]="post" ></app-comment-new>
         </form>
         <app-like [postId]="post._id"></app-like>

@@ -50,6 +50,9 @@ import { LikePageComponent } from './like/like-page/like-page.component';
     BsDropdownModule.forRoot(),
     ModalModule.forRoot()
   ],
+  entryComponents: [
+    CommentComponent
+  ],
   providers: [PostService, CommentService, LikeService],
   bootstrap: [AppComponent]
 })
