@@ -10,7 +10,7 @@ import { Like } from '../shared/like.model';
 export class LikeComponent implements OnInit {
   @Input() postId: string;
 
-  private numberOfLikes: number;
+  numberOfLikes: number;
 
   constructor(private likeService: LikeService) { }
 
