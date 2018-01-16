@@ -12,7 +12,6 @@ import { AuthService } from "../services/auth.service";
 
 @Injectable()
 export class PostService extends BaseService {
-  private headers = new Headers({ 'Content-Type': 'application/json' });
   private serverUrl = environment.serverUrl + '/posts'; // URL to web api
   private posts: Post[] = [];
   public postsChanged = new Subject<Post[]>();
