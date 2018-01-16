@@ -29,7 +29,7 @@ export class LikeService {
 
   // Returns all likes of a user
   getLikesOfUser(userId: string): Promise<Like[]> {
-    let url = `${this.serverUrl}/${userId}`;
+    let url = `${this.serverUrl}/u/${userId}`;
 
     return this.http.get(url, {headers: this.headers})
       .toPromise()

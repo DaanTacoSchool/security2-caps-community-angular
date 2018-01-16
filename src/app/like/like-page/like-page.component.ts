@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { LikeService } from '../like.service';
+import { Like } from '../../shared/like.model';
+import { PostService } from '../../post/post.service';
+import { Post } from '../../post/post.model';
 
 @Component({
   selector: 'app-like-page',
@@ -7,9 +11,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LikePageComponent implements OnInit {
 
-  constructor() { }
+  likes: Like[] = [];
+  posts: Post[] = [];
+
+  constructor(private likeService: LikeService, private postService: PostService) { }
 
   ngOnInit() {
+      this.likeService.getLikesOfUser("5a572697a0fb3e1ea4d6df31")
+        .then(likes => {
+          this.likes = likes;
+          console.log(likes);
+            for(let i = 0; i < this.likes.length; i++) {
+              this.postService.getPost(this.likes[i].postId)
+                .then(post => {
+                  this.posts.push(post);
+                }).catch((error) => {
+                  console.log(error);
+                });
+            }
+        }
+      ).catch((error) => {
+        console.log(error);
+      });
+        
+      
   }
-
 }
