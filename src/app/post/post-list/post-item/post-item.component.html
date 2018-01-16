@@ -1,9 +1,9 @@
 <div class="row">
   <div class="card">
-    <div class="card-block">
-      <h4 class="align-middle d-inline-block card-title">{{post.user.fullName}}</h4>
-      <div dropdown class="d-inline-block dropdown float-right">
-        <a dropdownToggle class="btn dropdown-icon" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+    <div class="card-block d-flex justify-content-between align-items-center">
+      <h4 class="card-title m-0">{{post.user.fullName}}</h4>
+      <div dropdown class="dropdown">
+        <a dropdownToggle class="btn dropdown-icon p-0" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
         <ul *dropdownMenu class="dropdown-menu" aria-labelledby="dropdownMenuLink">
           <li *ngIf="authService.isUserLoggedIn()">
             <a class="dropdown-item" (click)="openModalWithComponent()">Edit</a>
@@ -20,7 +20,7 @@
       <p class="card-text">{{post.description}}</p>
       <hr>
       <app-comment-list [postId]="post._id" [post]="post" [numComments]="numComments"></app-comment-list>
-      <button class="btn btn-link btn-sm text-left no-btn" (click)="openCommentsModalWithComponent()">Show all comments...</button>
+      <button class="btn btn-link btn-sm text-left no-btn p-0 border-0" (click)="openCommentsModalWithComponent()">Show all comments...</button>
       <app-comment-new *ngIf="authService.isUserLoggedIn()" [postId]="post._id" [post]="post" ></app-comment-new>
       <br>
       <app-like [postId]="post._id"></app-like>
