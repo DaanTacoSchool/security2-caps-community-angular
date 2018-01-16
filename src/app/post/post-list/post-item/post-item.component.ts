@@ -4,6 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { PostEditComponent } from '../../post-edit/post-edit.component';
 import {CommentComponent} from "../../../comment/comment.component";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-post-item',
@@ -15,7 +16,7 @@ export class PostItemComponent implements OnInit {
   @Input() numComments?:number = 3;
   bsModalRef: BsModalRef;
   bsModalRefComments: BsModalRef;
-  constructor(private modalService: BsModalService) { }
+  constructor(private authService: AuthService, private modalService: BsModalService) { } // AuthService is used in the view
 
   ngOnInit() {
     console.log(this.post._id);

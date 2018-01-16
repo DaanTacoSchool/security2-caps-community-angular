@@ -1,2 +1,2 @@
-<button class="btn btn-default" (click)="onLike()">Like</button>
+<button *ngIf="authService.isUserLoggedIn()" class="btn btn-default" (click)="onLike()">Like</button>
 <p>{{ numberOfLikes }} likes</p>

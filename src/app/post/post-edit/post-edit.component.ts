@@ -9,6 +9,7 @@ import {Comment} from "../../comment/comment.model";
 import {User} from "../../shared/user.model";
 import {Like} from "../../shared/like.model";
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-post-edit',
@@ -114,9 +115,12 @@ export class PostEditComponent implements OnInit {
       tmpUser,
       tmpLikes
     );
-    if (this.editMode) {
-      this.debug?console.log('to postservice updatepost'):false;
-      this.postService.updatePost(this.postId,newPost); // ignore promise
+    if ((!isNullOrUndefined(this.postId) && this.postId !== '') || this.editMode) {
+        this.debug?console.log('to postservice updatepost'):false;
+        this.postService.updatePost(this.postId,newPost).then((post)=>{
+            this.modalRef.hide();
+        })
+        .catch((error) => { this.showError?console.log(error):false;});
     } else {
       this.debug?console.log('to postservice createpost'):false;
       this.postService.createPost(newPost)
