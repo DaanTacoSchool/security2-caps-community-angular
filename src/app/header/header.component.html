@@ -9,14 +9,14 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/post" routerLinkActive="active">Feed</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="authService.isUserLoggedIn()">
         <a class="nav-link" href="#">My Posts</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="authService.isUserLoggedIn()">
         <a class="nav-link" routerLink="/liked" routerLinkActive="active">My Liked Posts</a>
       </li>
     </ul>
-      <button class="btn btn-light my-2 my-sm-0" (click)="openModalWithComponent()">New Post</button>
+      <button class="btn btn-light my-2 my-sm-0" *ngIf="authService.isUserLoggedIn()" (click)="openModalWithComponent()">New Post</button>
       <button class="btn btn-light my-2 my-sm-0 ml-1" *ngIf="!authService.isUserLoggedIn()" (click)="openLoginModal()">Login</button>
       <button class="btn btn-light my-2 my-sm-0 ml-1" *ngIf="authService.isUserLoggedIn()" (click)="logout()">Logout</button>
   </div>

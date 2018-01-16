@@ -5,10 +5,10 @@
       <div dropdown class="d-inline-block dropdown float-right">
         <a dropdownToggle class="btn dropdown-icon" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
         <ul *dropdownMenu class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <li>
+          <li *ngIf="authService.isUserLoggedIn()">
             <a class="dropdown-item" (click)="openModalWithComponent()">Edit</a>
           </li>
-          <li>
+          <li *ngIf="authService.isUserLoggedIn()">
             <a class="dropdown-item" (click)="openDeleteConfirmationModal(postDeleteConfirmation)">Delete</a>
           </li>
         </ul>
