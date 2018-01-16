@@ -17,7 +17,7 @@
       <p class="card-text">{{post.description}}</p>
       <hr>
       <app-comment-list [postId]="post._id" [post]="post" [numComments]="numComments"></app-comment-list>
-      <button class="btn btn-link btn-sm text-left" (click)="openCommentsModalWithComponent()">Show all comments...</button>
+      <a class="comments" (click)="openCommentsModalWithComponent()">Show all comments...</a>
       <form class="form-inline">
         <app-comment-new [postId]="post._id" [post]="post" ></app-comment-new>
         </form>
