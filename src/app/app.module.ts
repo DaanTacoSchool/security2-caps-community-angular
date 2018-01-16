@@ -21,6 +21,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AppRoutingModule} from "./app-routing.module";
 import {HttpModule} from "@angular/http";
 import { CommentNewComponent } from './comment/comment-new/comment-new.component';
+import { LikePageComponent } from './like/like-page/like-page.component';
 
 
 @NgModule({
@@ -38,7 +39,7 @@ import { CommentNewComponent } from './comment/comment-new/comment-new.component
     HeaderComponent,
     PostEditComponent,
     CommentNewComponent,
-
+    LikePageComponent
   ],
   imports: [
     BrowserModule,
