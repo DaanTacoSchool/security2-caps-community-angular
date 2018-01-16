@@ -1,10 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 import {Comment} from "../comment.model";
 import {Subscription} from "rxjs/Subscription";
 import {environment} from "../../../environments/environment";
 import {PostService} from "../../post/post.service";
 import {CommentService} from "../comment.service";
 import {Post} from "../../post/post.model";
+import { SimpleChange } from '@angular/core/src/change_detection/change_detection_util';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -23,9 +25,6 @@ export class CommentListComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.postId){
-      this.postId = this.post._id;
-    }
     this.postService.getPost(this.postId)
         .then(post => {
           let comments;
@@ -41,7 +40,7 @@ export class CommentListComponent implements OnInit {
           this.post =post;
         })
         .catch(error => this.showErrors?console.log(error):false);
+      }
 
   }
 
-}

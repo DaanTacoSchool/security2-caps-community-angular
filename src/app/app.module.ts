@@ -53,6 +53,7 @@ import { LikePageComponent } from './like/like-page/like-page.component';
   entryComponents: [
     CommentComponent
   ],
+
   providers: [PostService, CommentService, LikeService],
   bootstrap: [AppComponent]
 })
