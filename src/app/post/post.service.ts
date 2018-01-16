@@ -133,7 +133,8 @@ export class PostService extends BaseService {
       .toPromise()
       .then(response => {
         const arrayIndex = this.posts.findIndex(x => x._id === postId);
-        this.postsChanged.next(this.posts.slice(arrayIndex, 1));
+        delete this.posts[arrayIndex];
+        this.postsChanged.next(this.posts.slice());
         return response.json();
       })
       .catch(error => {
