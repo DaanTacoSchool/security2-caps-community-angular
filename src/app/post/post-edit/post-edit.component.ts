@@ -108,8 +108,8 @@ export class PostEditComponent implements OnInit {
       tmpId,
       this.postForm.value['title'],
       this.postForm.value['description'],
-      this.postForm.value['image_path'],
       '',
+      this.postForm.value['image_path'],
       tmpComments,
       tmpUser,
       tmpLikes
