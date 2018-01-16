@@ -3,6 +3,7 @@ import {BsModalRef} from "ngx-bootstrap";
 import {Login} from "./login.model";
 import {AuthService} from "../services/auth.service";
 import {isNullOrUndefined} from "util";
+import {UserService} from "../services/user.service";
 
 @Component({
   selector: 'app-login',
@@ -10,15 +11,12 @@ import {isNullOrUndefined} from "util";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private _authService: AuthService;
   private modalRef: BsModalRef;
   private login: Login = new Login();
   private loading: boolean = false;
   private error: { error: boolean, message: string };
 
-  constructor(authService: AuthService) {
-      this._authService = authService;
-  }
+  constructor(private authService: AuthService, private userService: UserService) {}
 
   ngOnInit() {
       this.error = { error: false, message: ''};
@@ -27,10 +25,10 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     // TODO: Handle errors
-    this._authService.login(this.login).subscribe(
+    this.userService.login(this.login).subscribe(
         loginResult => {
             if (!isNullOrUndefined(loginResult.token) && loginResult.token !== "") {
-                this._authService.setUserToken(loginResult.token);
+                this.authService.setUserToken(loginResult.token);
             }
             this.loading = false;
             this.modalRef.hide();

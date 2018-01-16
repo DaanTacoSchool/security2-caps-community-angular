@@ -7,10 +7,14 @@ import {User} from "../shared/user.model";
 import {Like} from "../shared/like.model";
 import {environment} from "../../environments/environment";
 import {DEPRECATED_PLURAL_FN} from "@angular/common/src/i18n/localization";
+import {BaseService} from "../services/base.service";
+import {AuthService} from "../services/auth.service";
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs/Observable";
 
 
 @Injectable()
-export class PostService {
+export class PostService extends BaseService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private serverUrl = environment.serverUrl + '/posts'; // URL to web api
   private posts: Post[] = [];
@@ -20,7 +24,9 @@ export class PostService {
   private showErrors = environment.displayErrors;
 
 
-  constructor(private http: Http) { }
+  constructor(authService: AuthService, private http: Http, private httpClient: HttpClient) {
+    super(authService);
+  }
 
   /* ---- for development only -----*/
   public getPostsTest(): Promise<Post[]> {
@@ -77,7 +83,7 @@ export class PostService {
 
   createPost(post: Post) {
     const d = post;
-    return this.http.post(this.serverUrl , d)
+    return this.http.post(this.serverUrl , d, this.requestOptionsOld())
       .toPromise()
       .then(response => {
         const tmpPost = response.json() as Post;

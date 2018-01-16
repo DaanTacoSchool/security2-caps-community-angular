@@ -24,6 +24,7 @@ import { CommentNewComponent } from './comment/comment-new/comment-new.component
 import { LoginComponent } from './login/login.component';
 import { AuthService } from "./services/auth.service";
 import { HttpClientModule } from "@angular/common/http";
+import {UserService} from "./services/user.service";
 
 
 @NgModule({
@@ -55,7 +56,7 @@ import { HttpClientModule } from "@angular/common/http";
     ModalModule.forRoot(),
     AlertModule.forRoot()
   ],
-  providers: [PostService, CommentService, LikeService, AuthService],
+  providers: [PostService, CommentService, LikeService, AuthService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
