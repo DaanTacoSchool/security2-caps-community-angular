@@ -1,6 +1,7 @@
-<div *ngIf="post !== undefined && post.comments !== undefined" class="modal-body">
+<div *ngIf="post !== undefined && post.comments !== undefined">
   <app-comment-item
     *ngFor="let comment of post.comments"
     [comment]="comment"></app-comment-item>
-  </div>
+</div>
+
 

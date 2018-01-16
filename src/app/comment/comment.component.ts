@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {Post} from "../post/post.model";
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-comment',
@@ -17,7 +18,8 @@ export class CommentComponent implements OnInit {
   private debug = environment.debug;
   bsModalRef: BsModalRef;
 
-  constructor(private modalService: BsModalService) { }
+
+  constructor() { }
 
   ngOnInit() {
 
@@ -28,13 +30,5 @@ export class CommentComponent implements OnInit {
     // }
   }
 
-  openModalWithComponent() {
-    console.log("dikke test");
-    console.log(this.post._id);
-    this.bsModalRef = this.modalService.show(CommentListComponent, {class: 'modal-lg'});
-    this.bsModalRef.content.post = this.post;
-    this.bsModalRef.content.numComment = 0;
-    this.bsModalRef.content.postId = this.post._id;
-    // this.bsModalRef.content.modalRef = this.bsModalRef;
-  }
+
 }

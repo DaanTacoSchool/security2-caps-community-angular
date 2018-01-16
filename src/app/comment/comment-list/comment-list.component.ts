@@ -6,13 +6,14 @@ import {PostService} from "../../post/post.service";
 import {CommentService} from "../comment.service";
 import {Post} from "../../post/post.model";
 import { SimpleChange } from '@angular/core/src/change_detection/change_detection_util';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 @Component({
   selector: 'app-comment-list',
   templateUrl: './comment-list.component.html',
   styleUrls: ['./comment-list.component.css']
 })
-export class CommentListComponent implements OnInit, OnChanges {
+export class CommentListComponent implements OnInit {
   @Input() post: Post;
   @Input() postId: string;
   @Input() numComments: number;
@@ -43,4 +44,3 @@ export class CommentListComponent implements OnInit, OnChanges {
 
   }
 
-}
