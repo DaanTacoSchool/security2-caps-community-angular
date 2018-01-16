@@ -120,7 +120,10 @@ export class PostEditComponent implements OnInit {
     } else {
       this.debug?console.log('to postservice createpost'):false;
       this.postService.createPost(newPost)
-          .then((post)=>{ this.post = post;})
+          .then((post)=>{
+              this.post = post;
+              this.modalRef.hide();
+          })
           .catch((error) => { this.showError?console.log(error):false;});
     }
     this.onCancel();
