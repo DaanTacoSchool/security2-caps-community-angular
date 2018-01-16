@@ -17,5 +17,7 @@
       </li>
     </ul>
       <button class="btn btn-light my-2 my-sm-0" (click)="openModalWithComponent()">New Post</button>
+      <button class="btn btn-light my-2 my-sm-0 ml-1" *ngIf="!authService.isUserLoggedIn()" (click)="openLoginModal()">Login</button>
+      <button class="btn btn-light my-2 my-sm-0 ml-1" *ngIf="authService.isUserLoggedIn()" (click)="logout()">Logout</button>
   </div>
 </nav>
