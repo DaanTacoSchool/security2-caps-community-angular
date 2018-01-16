@@ -21,6 +21,8 @@ export class PostListComponent implements OnInit {
     this.postsSubscription = this.postService.postsChanged
       .subscribe(
         (posts: Post[]) => {
+          console.log('Posts changed');
+          console.log(posts);
           this.posts = posts;
         }
       );

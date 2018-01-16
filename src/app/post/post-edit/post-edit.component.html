@@ -38,7 +38,7 @@
         <div class="col-xs-12">
           <button
             type="submit"
-            class="btn btn-success" [disabled]="!postForm.valid" >Post!</button>
+            class="btn btn-success" [disabled]="loading || !postForm.valid" ><i *ngIf="loading" class='fa fa-spinner fa-spin '></i>Post!</button>
           <button type="button" class="btn btn-danger" (click)="modalRef.hide()">Cancel</button>
         </div>
       <!--<div class="row">-->

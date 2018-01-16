@@ -17,6 +17,7 @@ import {isNullOrUndefined} from "util";
   styleUrls: ['./post-edit.component.css']
 })
 export class PostEditComponent implements OnInit {
+    loading: boolean;
   modalRef: BsModalRef;
   posts: Post[];
   postId: string; // for editing
@@ -34,6 +35,7 @@ export class PostEditComponent implements OnInit {
               private router: Router) { this.initForm(); }
 
   ngOnInit() {
+    this.loading = false;
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -87,6 +89,7 @@ export class PostEditComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loading = true;
     this.debug?console.log('on submit post-edit'):false;
     let tmpId:string;
     let tmpLikes: Like[];
@@ -118,17 +121,25 @@ export class PostEditComponent implements OnInit {
     if ((!isNullOrUndefined(this.postId) && this.postId !== '') || this.editMode) {
         this.debug?console.log('to postservice updatepost'):false;
         this.postService.updatePost(this.postId,newPost).then((post)=>{
+            this.loading = false;
             this.modalRef.hide();
         })
-        .catch((error) => { this.showError?console.log(error):false;});
+        .catch((error) => {
+            this.loading = false;
+            this.showError?console.log(error):false;
+        });
     } else {
       this.debug?console.log('to postservice createpost'):false;
       this.postService.createPost(newPost)
           .then((post)=>{
               this.post = post;
+              this.loading = false;
               this.modalRef.hide();
           })
-          .catch((error) => { this.showError?console.log(error):false;});
+          .catch((error) => {
+              this.loading = false;
+              this.showError?console.log(error):false;
+          });
     }
     this.onCancel();
   }
