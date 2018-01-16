@@ -1,12 +1,3 @@
-<p>
-  post-detail works!
-  <!--<app-comment-list></app-comment-list>-->
-
-</p>
 <div class="center-block">
-  <app-post-item [post]="post"></app-post-item>
-  <app-comment
-    [postId]="postId"
-    [post]="post"></app-comment>
-  <app-comment-new [postId]="postId" [post]="post"></app-comment-new>
+  <app-post-item [post]="post" [numComments]="0"></app-post-item>
 </div>

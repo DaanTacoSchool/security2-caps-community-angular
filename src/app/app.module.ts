@@ -40,6 +40,7 @@ import { PostOwnComponent } from './post/post-own/post-own.component';
     PostEditComponent,
     CommentNewComponent,
     PostOwnComponent
+
   ],
   imports: [
     BrowserModule,
@@ -49,6 +50,9 @@ import { PostOwnComponent } from './post/post-own/post-own.component';
     HttpModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot()
+  ],
+  entryComponents: [
+    CommentComponent
   ],
   providers: [PostService, CommentService, LikeService],
   bootstrap: [AppComponent]
