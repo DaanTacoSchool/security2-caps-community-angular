@@ -8,9 +8,6 @@
           <li>
             <a class="dropdown-item" (click)="openModalWithComponent()">Edit</a>
           </li>
-          <li>
-            <a class="dropdown-item" (click)="openCommentsModalWithComponent()">Comments</a>
-          </li>
         </ul>
       </div>
     </div>
@@ -18,7 +15,9 @@
     <div class="card-block">
       <h4 class="card-title">{{post.title}}</h4>
       <p class="card-text">{{post.description}}</p>
+      <hr>
       <app-comment-list [postId]="post._id" [post]="post" [numComments]="numComments"></app-comment-list>
+      <button class="btn btn-link btn-sm text-left" (click)="openCommentsModalWithComponent()">Show all comments...</button>
       <form class="form-inline">
         <app-comment-new [postId]="post._id" [post]="post" ></app-comment-new>
         </form>

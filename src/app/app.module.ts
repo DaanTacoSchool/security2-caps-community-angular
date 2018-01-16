@@ -24,7 +24,7 @@ import { CommentNewComponent } from './comment/comment-new/comment-new.component
 import { LoginComponent } from './login/login.component';
 import { AuthService } from "./services/auth.service";
 import { HttpClientModule } from "@angular/common/http";
-import {UserService} from "./services/user.service";
+import { UserService } from "./services/user.service";
 import { LikePageComponent } from './like/like-page/like-page.component';
 
 
