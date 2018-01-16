@@ -13,6 +13,7 @@ import {DEPRECATED_PLURAL_FN} from "@angular/common/src/i18n/localization";
 export class PostService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private serverUrl = environment.serverUrl + '/posts'; // URL to web api
+  private userUrl = environment.serverUrl + '/users'; // URL to user route
   private posts: Post[] = [];
   public postsChanged = new Subject<Post[]>();
   public postChanged = new Subject<Post>();
@@ -51,6 +52,19 @@ export class PostService {
 
   public getPosts(): Promise<Post[]> {
     return this.http.get(this.serverUrl, { headers: this.headers })
+      .toPromise()
+      .then(response => {
+        this.posts = response.json() as Post[];
+        return this.posts;
+      })
+      .catch(error => {
+        this.debug?console.log(error):false;
+        return  this.handleError(error);
+      });
+  }
+
+  public getOwnPosts(userId: string): Promise<Post[]> {
+    return this.http.get(this.userUrl + '/posts/' + userId , { headers: this.headers })
       .toPromise()
       .then(response => {
         this.posts = response.json() as Post[];
