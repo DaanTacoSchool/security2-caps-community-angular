@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
-import {Subject} from "rxjs/Subject";
-import {Post} from "./post.model";
+import { Subject } from "rxjs/Subject";
+import { Post } from "./post.model";
 import { Http, Headers } from '@angular/http';
 import { Comment} from "../comment/comment.model";
-import {User} from "../shared/user.model";
-import {Like} from "../shared/like.model";
-import {environment} from "../../environments/environment";
-import {DEPRECATED_PLURAL_FN} from "@angular/common/src/i18n/localization";
-import {BaseService} from "../services/base.service";
-import {AuthService} from "../services/auth.service";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs/Observable";
+import { User } from "../shared/user.model";
+import { Like } from "../shared/like.model";
+import { environment } from "../../environments/environment";
+import { BaseService } from "../services/base.service";
+import { AuthService } from "../services/auth.service";
 
 
 @Injectable()
@@ -23,8 +20,7 @@ export class PostService extends BaseService {
   private debug = environment.debug;
   private showErrors = environment.displayErrors;
 
-
-  constructor(authService: AuthService, private http: Http, private httpClient: HttpClient) {
+  constructor(authService: AuthService, private http: Http) {
     super(authService);
   }
 
@@ -56,7 +52,7 @@ export class PostService extends BaseService {
 
 
   public getPosts(): Promise<Post[]> {
-    return this.http.get(this.serverUrl, { headers: this.headers })
+    return this.http.get(this.serverUrl, this.requestOptionsOld())
       .toPromise()
       .then(response => {
         this.posts = response.json() as Post[];
@@ -69,7 +65,7 @@ export class PostService extends BaseService {
   }
 
   getPost(postId: string): Promise<Post> {
-    return this.http.get(this.serverUrl + '/' + postId, { headers: this.headers })
+    return this.http.get(this.serverUrl + '/' + postId, this.requestOptionsOld())
       .toPromise()
       .then(response => {
         // TODO: maybe subscription .next?
@@ -119,7 +115,7 @@ export class PostService extends BaseService {
 
   updatePost(postId: string, newPost: Post) {
     // use post id in case somehow the new post does not have one
-    return this.http.put(this.serverUrl + '/' + postId , newPost)
+    return this.http.put(this.serverUrl + '/' + postId , newPost, this.requestOptionsOld())
       .toPromise()
       .then(response => {
         const arrayIndex = this.posts.findIndex(x=>x._id === postId);
@@ -134,7 +130,7 @@ export class PostService extends BaseService {
   }
 
   deletePost(postId: string) {
-    return this.http.delete(this.serverUrl + '/' + postId, { headers: this.headers })
+    return this.http.delete(this.serverUrl + '/' + postId, this.requestOptionsOld())
       .toPromise()
       .then(response => {
         this.postsChanged.next(this.posts.slice());
