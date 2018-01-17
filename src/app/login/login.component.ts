@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
         loginResult => {
             if (!isNullOrUndefined(loginResult.token) && loginResult.token !== "") {
                 this.authService.setUserToken(loginResult.token);
+                this.authService.setUserGUID(loginResult.user.guid);
             }
             this.loading = false;
             this.modalRef.hide();
