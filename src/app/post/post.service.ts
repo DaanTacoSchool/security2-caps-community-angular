@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import {Subject} from "rxjs/Subject";
-import {Post} from "./post.model";
+import { Subject } from "rxjs/Subject";
+import { Post } from "./post.model";
 import { Http, Headers } from '@angular/http';
 import { Comment} from "../comment/comment.model";
-import {User} from "../shared/user.model";
-import {Like} from "../shared/like.model";
-import {environment} from "../../environments/environment";
-import {DEPRECATED_PLURAL_FN} from "@angular/common/src/i18n/localization";
+import { User } from "../shared/user.model";
+import { Like } from "../shared/like.model";
+import { environment } from "../../environments/environment";
+import { BaseService } from "../services/base.service";
+import { AuthService } from "../services/auth.service";
 
 
 @Injectable()
-export class PostService {
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+export class PostService extends BaseService {
   private serverUrl = environment.serverUrl + '/posts'; // URL to web api
   private userUrl = environment.serverUrl + '/users'; // URL to user route
   private posts: Post[] = [];
@@ -20,8 +20,9 @@ export class PostService {
   private debug = environment.debug;
   private showErrors = environment.displayErrors;
 
-
-  constructor(private http: Http) { }
+  constructor(authService: AuthService, private http: Http) {
+    super(authService);
+  }
 
   /* ---- for development only -----*/
   public getPostsTest(): Promise<Post[]> {
@@ -41,7 +42,7 @@ export class PostService {
 
   /* ---- for development only -----*/
   getPostWithCommentsTest():Post{
-    const usr:User= new User('id','name', 'city', 'country', 'address', 'postcode', ' username' ,'email');
+    const usr:User= new User(0,'', '', '', '', '', '' , []);
     const comm:Comment = new Comment('commid','postid','the comment content', usr);
     const comArr:Comment[] = [comm,comm];
     const tstLike:Like = new Like('id','userid', ' postid');
@@ -51,7 +52,7 @@ export class PostService {
 
 
   public getPosts(): Promise<Post[]> {
-    return this.http.get(this.serverUrl, { headers: this.headers })
+    return this.http.get(this.serverUrl, this.requestOptionsOld())
       .toPromise()
       .then(response => {
         this.posts = response.json() as Post[];
@@ -77,7 +78,7 @@ export class PostService {
   }
 
   getPost(postId: string): Promise<Post> {
-    return this.http.get(this.serverUrl + '/' + postId, { headers: this.headers })
+    return this.http.get(this.serverUrl + '/' + postId, this.requestOptionsOld())
       .toPromise()
       .then(response => {
         // TODO: maybe subscription .next?
@@ -91,7 +92,7 @@ export class PostService {
 
   createPost(post: Post) {
     const d = post;
-    return this.http.post(this.serverUrl , d)
+    return this.http.post(this.serverUrl , d, this.requestOptionsOld())
       .toPromise()
       .then(response => {
         const tmpPost = response.json() as Post;
@@ -127,7 +128,7 @@ export class PostService {
 
   updatePost(postId: string, newPost: Post) {
     // use post id in case somehow the new post does not have one
-    return this.http.put(this.serverUrl + '/' + postId , newPost)
+    return this.http.put(this.serverUrl + '/' + postId , newPost, this.requestOptionsOld())
       .toPromise()
       .then(response => {
         const arrayIndex = this.posts.findIndex(x=>x._id === postId);
@@ -142,9 +143,11 @@ export class PostService {
   }
 
   deletePost(postId: string) {
-    return this.http.delete(this.serverUrl + '/' + postId, { headers: this.headers })
+    return this.http.delete(this.serverUrl + '/' + postId, this.requestOptionsOld())
       .toPromise()
       .then(response => {
+        const arrayIndex = this.posts.findIndex(x => x._id === postId);
+        delete this.posts[arrayIndex];
         this.postsChanged.next(this.posts.slice());
         return response.json();
       })

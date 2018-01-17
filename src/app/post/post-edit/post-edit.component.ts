@@ -9,6 +9,7 @@ import {Comment} from "../../comment/comment.model";
 import {User} from "../../shared/user.model";
 import {Like} from "../../shared/like.model";
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-post-edit',
@@ -16,6 +17,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
   styleUrls: ['./post-edit.component.css']
 })
 export class PostEditComponent implements OnInit {
+    loading: boolean;
   modalRef: BsModalRef;
   posts: Post[];
   postId: string; // for editing
@@ -33,6 +35,7 @@ export class PostEditComponent implements OnInit {
               private router: Router) { this.initForm(); }
 
   ngOnInit() {
+    this.loading = false;
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -54,7 +57,7 @@ export class PostEditComponent implements OnInit {
   }
 
   private initForm() {
-    let pTitle='', pDesc = '', pMadeBy='',pImg='';
+    let pTitle='', pDesc = '', pImg='';
     let pComments = null, pUser  =null, pLikes = null;
 
     if (this.editMode) {
@@ -62,7 +65,6 @@ export class PostEditComponent implements OnInit {
         .then(post => { this.post = post;
           pTitle = this.post.title;
           pDesc = this.post.description;
-          pMadeBy = this.post.made_by;
           pImg = this.post.image_path;
           pComments = this.post.comments?this.post.comments:null;
           pUser = this.post.user?this.post.user:null;
@@ -77,7 +79,6 @@ export class PostEditComponent implements OnInit {
     this.postForm = new FormGroup({
       'title': new FormControl(pTitle),
       'description': new FormControl(pDesc),
-      'made_by': new FormControl(pMadeBy),
       'image_path': new FormControl(pImg),
     });
 
@@ -88,6 +89,7 @@ export class PostEditComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loading = true;
     this.debug?console.log('on submit post-edit'):false;
     let tmpId:string;
     let tmpLikes: Like[];
@@ -110,20 +112,34 @@ export class PostEditComponent implements OnInit {
       tmpId,
       this.postForm.value['title'],
       this.postForm.value['description'],
-      this.postForm.value['made_by'],
+      '',
       this.postForm.value['image_path'],
       tmpComments,
       tmpUser,
       tmpLikes
     );
-    if (this.editMode) {
-      this.debug?console.log('to postservice updatepost'):false;
-      this.postService.updatePost(this.postId,newPost); // ignore promise
+    if ((!isNullOrUndefined(this.postId) && this.postId !== '') || this.editMode) {
+        this.debug?console.log('to postservice updatepost'):false;
+        this.postService.updatePost(this.postId,newPost).then((post)=>{
+            this.loading = false;
+            this.modalRef.hide();
+        })
+        .catch((error) => {
+            this.loading = false;
+            this.showError?console.log(error):false;
+        });
     } else {
       this.debug?console.log('to postservice createpost'):false;
       this.postService.createPost(newPost)
-          .then((post)=>{ this.post = post;})
-          .catch((error) => { this.showError?console.log(error):false;});
+          .then((post)=>{
+              this.post = post;
+              this.loading = false;
+              this.modalRef.hide();
+          })
+          .catch((error) => {
+              this.loading = false;
+              this.showError?console.log(error):false;
+          });
     }
     this.onCancel();
   }
