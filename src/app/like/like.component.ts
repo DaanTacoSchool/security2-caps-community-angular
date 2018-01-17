@@ -11,6 +11,7 @@ export class LikeComponent implements OnInit {
   @Input() postId: string;
 
   numberOfLikes: number;
+  liked: boolean;
 
   constructor(private likeService: LikeService) { }
 
@@ -23,6 +24,7 @@ export class LikeComponent implements OnInit {
   }
 
   onLike() {
+    console.log(this.postId);
     let l = new Like(
       null,
       null,
@@ -33,5 +35,9 @@ export class LikeComponent implements OnInit {
       .then(response => {
         console.log(response);
       });
+  }
+
+  onUnLike() {
+    
   }
 }

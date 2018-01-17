@@ -1,2 +1,3 @@
-<button class="btn btn-default" (click)="onLike()">Like</button>
+<button *ngIf="liked" class="btn btn-default" (click)="onLike()">Like</button>
+<button *ngIf="!liked" class="btn btn-default" (click)="onUnLike()">Unlike</button>
 <p>{{ numberOfLikes }} likes</p>
