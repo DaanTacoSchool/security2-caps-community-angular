@@ -26,7 +26,7 @@ import { AuthService } from "./services/auth.service";
 import { HttpClientModule } from "@angular/common/http";
 import { UserService } from "./services/user.service";
 import { LikePageComponent } from './like/like-page/like-page.component';
-
+import { PostOwnComponent } from './post/post-own/post-own.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +45,8 @@ import { LikePageComponent } from './like/like-page/like-page.component';
     CommentNewComponent,
     LoginComponent,
     LikePageComponent
+    PostOwnComponent
+ 
   ],
   entryComponents: [LoginComponent, CommentComponent],
   imports: [
