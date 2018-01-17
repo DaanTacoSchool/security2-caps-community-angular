@@ -1,24 +1,27 @@
 import { Injectable } from '@angular/core';
-import {environment} from "../../environments/environment";
-import {Subject} from "rxjs/Subject";
-import {Comment} from "./comment.model";
-import { Http, Headers } from '@angular/http';
+import { environment } from "../../environments/environment";
+import { Subject } from "rxjs/Subject";
+import { Comment } from "./comment.model";
+import { Http } from '@angular/http';
+import { AuthService } from "../services/auth.service";
+import { BaseService } from "../services/base.service";
 
 @Injectable()
-export class CommentService {
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+export class CommentService extends BaseService {
   private serverUrl = environment.serverUrl + '/comments';
   private commentsInPost: Comment[] = [];
   private debug = environment.debug;
   private showErrors = environment.displayErrors;
   public commentsInPostChanged = new Subject<Comment[]>(); // dont delete
 
-  constructor(private http: Http) { }
+  constructor(authService: AuthService, private http: Http) {
+      super(authService);
+  }
 
 
   // could be used for detail pages or statistics etc.
   getAllCommentsInPost(postId: string): Promise<Comment[]> {
-    return this.http.get(this.serverUrl + '/post/' + postId, { headers: this.headers }) // ~/comments/:postid
+    return this.http.get(this.serverUrl + '/post/' + postId, this.requestOptionsOld()) // ~/comments/:postid
         .toPromise()
         .then(response => {
           this.commentsInPost = response.json() as Comment[];
@@ -39,7 +42,7 @@ export class CommentService {
         });
   }
   createComment(postId: string, comm: Comment) {
-    return this.http.post(this.serverUrl +'/p/'+postId, comm) // new/
+    return this.http.post(this.serverUrl +'/p/'+postId, comm, this.requestOptionsOld()) // new/
       .toPromise()
       .then(response => {
         const tmpComment = response.json() as Comment;

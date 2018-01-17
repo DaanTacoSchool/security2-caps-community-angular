@@ -12,11 +12,6 @@
     color: #2e2e2e
 }
 
-.comments {
-    cursor: pointer;
+.no-btn {
+    box-shadow: none !important;
 }
-
-a.comments {
-    color: #706f6f
-}
-
