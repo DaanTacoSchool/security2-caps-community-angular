@@ -11,10 +11,10 @@ import {UserService} from "../services/user.service";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private modalRef: BsModalRef;
-  private login: Login = new Login();
-  private loading: boolean = false;
-  private error: { error: boolean, message: string };
+    public modalRef: BsModalRef;
+    public login: Login = new Login();
+    public loading: boolean = false;
+    private error: { error: boolean, message: string };
 
   constructor(public authService: AuthService, private userService: UserService) {}
 
