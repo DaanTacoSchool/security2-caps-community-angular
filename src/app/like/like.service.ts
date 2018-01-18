@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
+import { Observable } from 'rxjs/Observable';
 import { Like } from '../shared/like.model';
 import { BaseService } from '../services/base.service';
 import { AuthService } from '../services/auth.service';
@@ -57,7 +58,7 @@ export class LikeService extends BaseService {
   
   // Delete a like
   deleteLike(like: Like) {
-      const url = `${this.serverUrl}/${like._id}`;
+    const url = `${this.serverUrl}/${like._id}`;
     return this.http.delete(url, this.requestOptionsOld())
       .toPromise()
       .then(response => {
