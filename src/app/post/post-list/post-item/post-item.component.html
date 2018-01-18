@@ -21,6 +21,7 @@
       <hr>
       <app-comment-list [postId]="post._id" [post]="post" [numComments]="numComments"></app-comment-list>
       <button class="btn btn-link btn-sm text-left no-btn p-0 border-0" (click)="openCommentsModalWithComponent()">Show all comments...</button>
+      <br>
       <app-comment-new *ngIf="authService.isUserLoggedIn()" [postId]="post._id" [post]="post" ></app-comment-new>
       <br>
       <app-like [postId]="post._id"></app-like>
