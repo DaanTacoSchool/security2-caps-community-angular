@@ -3,22 +3,25 @@ import { Http, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { Like } from '../shared/like.model';
+import { BaseService } from '../services/base.service';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
-export class LikeService {
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+export class LikeService extends BaseService {
   private serverUrl = environment.serverUrl + '/likes';
 
   private likesOfPost: Like[] = [];
   private likesOfUser: Like[] = [];
 
-  constructor(private http: Http) { }
+  constructor(authService: AuthService, private http: Http) {
+    super(authService);
+   }
 
   // Returns all likes of a post
   getLikesOfPost(postId: string): Promise<Like[]> {
     let url = `${this.serverUrl}/${postId}`;
 
-    return this.http.get(url, {headers: this.headers})
+    return this.http.get(url, this.requestOptionsOld())
       .toPromise()
       .then(response => {
         return response.json() as Like[];
@@ -28,12 +31,13 @@ export class LikeService {
   }
 
   // Returns all likes of a user
-  getLikesOfUser(userId: string): Promise<Like[]> {
-    let url = `${this.serverUrl}/u/${userId}`;
+  getLikesOfUser(): Promise<Like[]> {
+    let url = `${this.serverUrl}/u`;
 
-    return this.http.get(url, {headers: this.headers})
+    return this.http.get(url, this.requestOptionsOld())
       .toPromise()
       .then(response => {
+        console.log(response);
         return response.json() as Like[];
       }).catch(error => {
         return this.handleError(error);
@@ -42,8 +46,8 @@ export class LikeService {
 
   // Create a like
   createLike(like: Like) {
-    let body = { user: `${like.userId}`, post: `${like.postId}`};
-    return this.http.post(this.serverUrl, body, {headers: this.headers})
+    let body = { postId: `${like.post}`};
+    return this.http.post(this.serverUrl, body, this.requestOptionsOld())
       .toPromise()
       .then(response => {
         return response.json() as Like;
@@ -55,7 +59,7 @@ export class LikeService {
   // Delete a like
   deleteLike(like: Like) {
     let url = `${this.serverUrl}/${like._id}`;
-    return this.http.delete(url, {headers: this.headers})
+    return this.http.delete(url, this.requestOptionsOld())
       .toPromise()
       .then(response => {
         return response.json() as string;

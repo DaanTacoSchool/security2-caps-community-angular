@@ -17,17 +17,13 @@ export class LikePageComponent implements OnInit {
   constructor(private likeService: LikeService, private postService: PostService) { }
 
   ngOnInit() {
-      this.likeService.getLikesOfUser("5a572697a0fb3e1ea4d6df31")
+      this.likeService.getLikesOfUser()
         .then(likes => {
           this.likes = likes;
           console.log(likes);
             for(let i = 0; i < this.likes.length; i++) {
-              this.postService.getPost(this.likes[i].postId)
-                .then(post => {
-                  this.posts.push(post);
-                }).catch((error) => {
-                  console.log(error);
-                });
+              let post = this.likes[i].post;
+              this.posts.push(post);
             }
         }
       ).catch((error) => {
