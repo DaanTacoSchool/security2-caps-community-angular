@@ -30,7 +30,6 @@ export class CommentNewComponent implements OnInit {
   }
   private initForm() {
     const content='';
-    this.debug?console.log('creation mode'):false;
     this.commentForm = new FormGroup({
       'content': new FormControl(content)
     });
@@ -42,8 +41,9 @@ export class CommentNewComponent implements OnInit {
 
   onSubmit() {
 
-    this.debug1?console.log('postid: ' + this.postId):false;
+    //logging
     this.debug?console.log('on submit new comment'):false;
+    this.debug1?console.log('postid: ' + this.postId):false;
 
     const newComment = new Comment(
       null,
@@ -60,8 +60,9 @@ export class CommentNewComponent implements OnInit {
         this.debug?console.log(this.post):false;
         this.debug?console.log(this.post.comments):false;
         this.debug?console.log('to commentService createComment'):false;
-        //-----
 
+
+        // If this.post.comments is empty make it an array with one comment, so you can add later (otherwise it throws error)
        if(!this.post.comments){
          this.post.comments= [newComment];
        }
@@ -70,10 +71,12 @@ export class CommentNewComponent implements OnInit {
             this.comment = comment;
 
             //-----
-            this.debug?console.log('comment-new:'):false;
+            this.debug?console.log('newComment result:'):false;
             this.debug?console.log(comment):false;
-            //-----
 
+
+            // Make new variable so you do not fire the onPostChanged event for every post!
+            // The updatePostInMemory function handles this further.
             const p = this.post;
             p.comments.push(comment);
             this.postService.updatePostInMemory(p);

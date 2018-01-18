@@ -18,16 +18,11 @@ export class CommentComponent implements OnInit {
   private debug = environment.debug;
   bsModalRef: BsModalRef;
 
-
   constructor() { }
 
   ngOnInit() {
-
     this.debug?console.log('post comment component'):false;
     this.debug?console.log(this.postId):false;//id
-    // if(this.numComments==null){
-    //   this.numComments
-    // }
   }
 
 

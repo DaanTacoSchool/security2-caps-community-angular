@@ -6,6 +6,7 @@ import { PostEditComponent } from '../../post-edit/post-edit.component';
 import {CommentComponent} from "../../../comment/comment.component";
 import {AuthService} from "../../../services/auth.service";
 import {PostService} from "../../post.service";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-post-item',
@@ -18,12 +19,14 @@ export class PostItemComponent implements OnInit {
   bsModalRef: BsModalRef;
   bsModalRefComments: BsModalRef;
   bsModalRefConfirmDelete: BsModalRef;
+  private debug1 = environment.debug1;
+
   constructor(private postService: PostService,
               public authService: AuthService,
               private modalService: BsModalService) { } // AuthService is used in the view
 
   ngOnInit() {
-    console.log(this.post._id);
+    this.debug1?console.log(this.post._id):false;
   }
 
   openModalWithComponent() {

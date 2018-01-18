@@ -12,45 +12,23 @@ export class CommentService extends BaseService {
   private commentsInPost: Comment[] = [];
   private debug = environment.debug;
   private showErrors = environment.displayErrors;
-  public commentsInPostChanged = new Subject<Comment[]>(); // dont delete
+ // public commentsInPostChanged = new Subject<Comment[]>(); // use post subscriber instead
 
   constructor(authService: AuthService, private http: Http) {
       super(authService);
   }
 
-
-  // could be used for detail pages or statistics etc.
-  getAllCommentsInPost(postId: string): Promise<Comment[]> {
-    return this.http.get(this.serverUrl + '/post/' + postId, this.requestOptionsOld()) // ~/comments/:postid
-        .toPromise()
-        .then(response => {
-          this.commentsInPost = response.json() as Comment[];
-
-          this.debug?console.log('commentService-getAllCommentsInPost1'):false;
-          this.debug?console.log(this.commentsInPost):false;
-
-          //Leave this here for now might be re-enabled when we get to detailed comments
-          //this.commentsInPostChanged.next(this.commentsInPost.slice());
-
-          this.debug?console.log('commentService-getAllCommentsInPost2'):false;
-          this.debug?console.log(this.commentsInPost):false;
-
-          return this.commentsInPost;
-        })
-        .catch(error => {
-          return this.handleError(error);
-        });
-  }
   createComment(postId: string, comm: Comment) {
     return this.http.post(this.serverUrl +'/p/'+postId, comm, this.requestOptionsOld()) // new/
       .toPromise()
       .then(response => {
+        // cast response to comment and push to array
         const tmpComment = response.json() as Comment;
         this.commentsInPost.push(tmpComment);
 
         //Leave this here for now might be re-enabled when we get to detailed comments
         // this.commentsInPostChanged.next(this.commentsInPost.slice());
-        this.debug?console.log('commentService create comment'):false;
+        this.debug?console.log('commentService create-comment'):false;
         this.debug?console.log(tmpComment):false;
 
         return tmpComment;
