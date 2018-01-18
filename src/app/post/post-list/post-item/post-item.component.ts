@@ -18,7 +18,9 @@ export class PostItemComponent implements OnInit {
   bsModalRef: BsModalRef;
   bsModalRefComments: BsModalRef;
   bsModalRefConfirmDelete: BsModalRef;
-  constructor(private postService: PostService, private authService: AuthService, private modalService: BsModalService) { } // AuthService is used in the view
+  constructor(private postService: PostService,
+              private authService: AuthService,
+              private modalService: BsModalService) { } // AuthService is used in the view
 
   ngOnInit() {
     console.log(this.post._id);
