@@ -24,11 +24,13 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
+    const rememberMe = this.login.rememberMe;
     // TODO: Handle errors
     this.userService.login(this.login).subscribe(
         loginResult => {
             if (!isNullOrUndefined(loginResult.token) && loginResult.token !== "") {
                 this.authService.setUserToken(loginResult.token);
+                this.authService.setUserGUID(loginResult.user.guid);
             }
             this.loading = false;
             this.modalRef.hide();
@@ -38,6 +40,10 @@ export class LoginComponent implements OnInit {
             this.error = { error: true, message: 'Could not login!'};
         }
     );
+  }
+
+  switchRememberMe(checked) {
+      this.login.rememberMe = checked;
   }
 
 }
