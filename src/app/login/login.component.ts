@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
     this.userService.login(this.login).subscribe(
         loginResult => {
             if (!isNullOrUndefined(loginResult.token) && loginResult.token !== "") {
-                this.authService.setUserToken(loginResult.token);
+                this.authService.setUserToken(loginResult.token, rememberMe);
                 this.authService.setUserGUID(loginResult.user.guid);
             }
             this.loading = false;
