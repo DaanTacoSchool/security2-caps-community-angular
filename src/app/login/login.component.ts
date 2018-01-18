@@ -11,12 +11,12 @@ import {UserService} from "../services/user.service";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  modalRef: BsModalRef;
-  login: Login = new Login();
-  loading: boolean = false;
-  error: { error: boolean, message: string };
+    public modalRef: BsModalRef;
+    public login: Login = new Login();
+    public loading: boolean = false;
+    public error: { error: boolean, message: string };
 
-  constructor(private authService: AuthService, private userService: UserService) {}
+  constructor(public authService: AuthService, private userService: UserService) {}
 
   ngOnInit() {
       this.error = { error: false, message: ''};
@@ -24,11 +24,13 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
+    const rememberMe = this.login.rememberMe;
     // TODO: Handle errors
     this.userService.login(this.login).subscribe(
         loginResult => {
             if (!isNullOrUndefined(loginResult.token) && loginResult.token !== "") {
-                this.authService.setUserToken(loginResult.token);
+                this.authService.setUserToken(loginResult.token, rememberMe);
+                this.authService.setUserGUID(loginResult.user.guid);
             }
             this.loading = false;
             this.modalRef.hide();
@@ -38,6 +40,10 @@ export class LoginComponent implements OnInit {
             this.error = { error: true, message: 'Could not login!'};
         }
     );
+  }
+
+  switchRememberMe(checked) {
+      this.login.rememberMe = checked;
   }
 
 }

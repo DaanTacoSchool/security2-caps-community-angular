@@ -3,6 +3,7 @@ import { LikeService } from './like.service';
 import { Like } from '../shared/like.model';
 import { Post } from '../post/post.model';
 import { post } from 'selenium-webdriver/http';
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-like',
@@ -16,9 +17,10 @@ export class LikeComponent implements OnInit {
   numberOfLikes: number;
   liked: boolean;
 
-  constructor(private likeService: LikeService) { }
+  constructor(public authService: AuthService, private likeService: LikeService) { }
 
   ngOnInit() {
+    this.numberOfLikes = 0;
     // Get the number of likes on a post, to dispplay
     this.numberOfLikes = this.post.likes.length;
   }

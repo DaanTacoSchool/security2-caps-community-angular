@@ -1,20 +1,17 @@
-<form [formGroup]="commentForm" (ngSubmit)="onSubmit()" #f="ngForm">
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="form-group">
-        <input
+<br>
+  <form [formGroup]="commentForm" (ngSubmit)="onSubmit()" #f="ngForm">
+      <div class="input-group input-group-sm">
+        <input 
           type="text"
           id="content"
           formControlName="content"
-          class="form-control" ngModel
-          required="true" >
-      </div>
-      <div class="col-xs-12">
-        <button
-          type="submit"
-          class="btn btn-success"  [disabled]="!commentForm.valid" >comment!</button>
-        <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
-      </div>
-    </div>
-  </div>
+          class="form-control"
+          ngModel
+          placeholder="Comment..."
+          required="true">
+        <span class="input-group-btn">
+          <button class="btn btn-secondary" [disabled]="!commentForm.valid"
+          type="submit">Submit</button>
+        </span>
+        </div>
 </form>
