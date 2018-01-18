@@ -39,7 +39,7 @@ export class PostService extends BaseService {
 
   public getOwnPosts(): Promise<Post[]> {
 
-    return this.http.get(this.userUrl + '/posts/' + 'u' , this.requestOptionsOld())
+    return this.http.get(this.serverUrl + '/' + 'u' , this.requestOptionsOld())
       .toPromise()
       .then(response => {
         this.posts = response.json() as Post[];

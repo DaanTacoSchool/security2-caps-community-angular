@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Post} from '../post.model';
 import {environment} from '../../../environments/environment';
 import {ActivatedRoute, Params} from '@angular/router';
@@ -14,7 +14,8 @@ import { AuthService } from '../../services/auth.service';
 
 export class PostOwnComponent implements OnInit {
   userId: string;
-  posts: Post[];
+  posts: Post[] = [];
+  @Input() post: Post;
 
   private showErrors = environment.displayErrors;
 
@@ -25,12 +26,11 @@ export class PostOwnComponent implements OnInit {
 
   ngOnInit() {
 
-    // let userGuid = this.authService.getUserGUID();
-    // this.posts.forEach((post) => {
-    //   if (post.user.guid === userGuid) {
-    //     this.posts = post;
-    //   }
-    // });
-
+    let userGuid = this.authService.getUserGUID();
+    this.posts.forEach((post) => {
+      if(post.user.guid === userGuid) {
+        this.post = post;
+      }
+    });
   }
 }
