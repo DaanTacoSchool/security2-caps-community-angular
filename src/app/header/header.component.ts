@@ -33,7 +33,8 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.authService.setUserToken("");
+      this.authService.removeUserToken();
+      this.authService.removeUserGUID();
   }
 
 }
