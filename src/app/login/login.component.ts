@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   private loading: boolean = false;
   private error: { error: boolean, message: string };
 
-  constructor(private authService: AuthService, private userService: UserService) {}
+  constructor(public authService: AuthService, private userService: UserService) {}
 
   ngOnInit() {
       this.error = { error: false, message: ''};
