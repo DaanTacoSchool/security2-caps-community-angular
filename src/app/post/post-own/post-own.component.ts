@@ -15,7 +15,6 @@ import { AuthService } from '../../services/auth.service';
 export class PostOwnComponent implements OnInit {
   userId: string;
   posts: Post[] = [];
-  @Input() post: Post;
 
   private showErrors = environment.displayErrors;
 
@@ -26,11 +25,17 @@ export class PostOwnComponent implements OnInit {
 
   ngOnInit() {
 
-    let userGuid = this.authService.getUserGUID();
-    this.posts.forEach((post) => {
-      if(post.user.guid === userGuid) {
-        this.post = post;
-      }
+    this.postService.getOwnPosts()
+      .then(posts => {
+          this.posts = posts;
+          console.log(posts);
+          for(let i = 0; i < this.posts.length; i++) {
+            let post = this.posts[i];
+            this.posts.push(post);
+          }
+        }
+      ).catch((error) => {
+      console.log(error);
     });
   }
 }
