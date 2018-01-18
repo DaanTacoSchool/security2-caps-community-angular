@@ -1,0 +1,44 @@
+<div class="modal-body">
+  <form (ngSubmit)="onSubmit()">
+    <div class="col-xs-12" *ngIf="error.error">
+      <alert type="danger">
+        {{error.message}}
+      </alert>
+    </div>
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label class="white" for="email">Email</label>
+        <input
+          type="text"
+          id="email"
+          class="form-control" [(ngModel)]="login.email"
+          [ngModelOptions]="{standalone: true}"
+          required="true" >
+      </div>
+    </div>
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label class="white" for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          class="form-control" [(ngModel)]="login.password"
+          [ngModelOptions]="{standalone: true}"
+          required="true" >
+      </div>
+    </div>
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label class="white" for="rememberMe">Remember me?</label><br>
+        <input
+          type="checkbox"
+          id="rememberMe"
+          (click)="switchRememberMe($event.target.checked)">
+      </div>
+    </div>
+    <div class="col-xs-12">
+      <button type="submit" [disabled]="loading" class="btn btn-success"><i *ngIf="loading" class='fa fa-spinner fa-spin '></i>Login</button>
+      <button type="button" class="btn btn-danger" (click)="modalRef.hide()">Cancel</button>
+    </div>
+  </form>
+</div>

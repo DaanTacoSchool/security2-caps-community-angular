@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LikeService } from './like.service';
 import { Like } from '../shared/like.model';
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-like',
@@ -10,16 +11,17 @@ import { Like } from '../shared/like.model';
 export class LikeComponent implements OnInit {
   @Input() postId: string;
 
-  private numberOfLikes: number;
+  numberOfLikes: number;
 
-  constructor(private likeService: LikeService) { }
+  constructor(public authService: AuthService, private likeService: LikeService) { }
 
   ngOnInit() {
+    this.numberOfLikes = 0;
     // Get the number of likes on a post, to dispplay
     this.likeService.getLikesOfPost(this.postId)
       .then(likes => {
         this.numberOfLikes = likes.length;
-      })
+      });
   }
 
   onLike() {

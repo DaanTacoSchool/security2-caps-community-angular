@@ -11,3 +11,7 @@
     font-size: 2em;
     color: #2e2e2e
 }
+
+.no-btn {
+    box-shadow: none !important;
+}
