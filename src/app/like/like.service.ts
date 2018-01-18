@@ -8,7 +8,6 @@ import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class LikeService extends BaseService {
-  private headers = new Headers({ 'Content-Type': 'application/json' });
   private serverUrl = environment.serverUrl + '/likes';
 
   private likesOfPost: Like[] = [];
@@ -22,7 +21,7 @@ export class LikeService extends BaseService {
   getLikesOfPost(postId: string): Promise<Like[]> {
     let url = `${this.serverUrl}/${postId}`;
 
-    return this.http.get(url, {headers: this.headers})
+    return this.http.get(url, this.requestOptionsOld())
       .toPromise()
       .then(response => {
         return response.json() as Like[];
