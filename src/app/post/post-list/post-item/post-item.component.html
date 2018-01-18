@@ -22,7 +22,7 @@
       <form class="form-inline">
         <app-comment-new [postId]="post._id" [post]="post" ></app-comment-new>
         </form>
-        <app-like [postId]="post._id"></app-like>
+        <app-like [post]="post" [postId]="post._id"></app-like>
     </div>
   </div>
 </div>

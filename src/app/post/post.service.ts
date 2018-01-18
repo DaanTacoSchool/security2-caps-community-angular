@@ -23,33 +23,6 @@ export class PostService extends BaseService {
     super(authService);
   }
 
-  /* ---- for development only -----*/
-  public getPostsTest(): Promise<Post[]> {
-    return new Promise((resolve,reject)=>{
-      const i =2;
-      setTimeout(()=>{
-        if(i>1){
-          const postTstArr: Post[] = [this.getPostWithCommentsTest(), this.getPostWithCommentsTest()];
-          resolve(postTstArr);
-        }else{
-          reject();
-        }
-      },1000);
-    });
-  }
-  /* ---- for development only -----*/
-
-  /* ---- for development only -----*/
-  getPostWithCommentsTest():Post{
-    const usr:User= new User(0,'', '', '', '', '', '' , []);
-    const comm:Comment = new Comment('commid','postid','the comment content', usr);
-    const comArr:Comment[] = [comm,comm];
-    const tstLike:Like = new Like('id','userid', ' postid');
-    return new Post('testid','title', 'description','madeby', 'imageurl', comArr,usr,[tstLike]);
-  }
-  /* ---- for development only -----*/
-
-
   public getPosts(): Promise<Post[]> {
     return this.http.get(this.serverUrl, this.requestOptionsOld())
       .toPromise()
