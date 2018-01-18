@@ -37,8 +37,9 @@ export class PostService extends BaseService {
       });
   }
 
-  public getOwnPosts(userId: string): Promise<Post[]> {
-    return this.http.get(this.userUrl + '/posts/' + userId , this.requestOptionsOld())
+  public getOwnPosts(): Promise<Post[]> {
+
+    return this.http.get(this.userUrl + '/posts/' + 'u' , this.requestOptionsOld())
       .toPromise()
       .then(response => {
         this.posts = response.json() as Post[];
@@ -49,6 +50,7 @@ export class PostService extends BaseService {
         return  this.handleError(error);
       });
   }
+
 
   getPost(postId: string): Promise<Post> {
     return this.http.get(this.serverUrl + '/' + postId, this.requestOptionsOld())
