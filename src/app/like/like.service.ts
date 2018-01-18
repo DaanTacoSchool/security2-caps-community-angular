@@ -46,7 +46,7 @@ export class LikeService extends BaseService {
 
   // Create a like
   createLike(like: Like) {
-    let body = { postId: `${like.post}`};
+    let body = { post: `${like.post._id}`};
     return this.http.post(this.serverUrl, body, this.requestOptionsOld())
       .toPromise()
       .then(response => {
