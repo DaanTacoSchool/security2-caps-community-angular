@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   private loading: boolean = false;
   private error: { error: boolean, message: string };
 
-  constructor(private authService: AuthService, private userService: UserService) {}
+  constructor(public authService: AuthService, private userService: UserService) {}
 
   ngOnInit() {
       this.error = { error: false, message: ''};
@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
+    const rememberMe = this.login.rememberMe;
     // TODO: Handle errors
     this.userService.login(this.login).subscribe(
         loginResult => {
@@ -39,6 +40,10 @@ export class LoginComponent implements OnInit {
             this.error = { error: true, message: 'Could not login!'};
         }
     );
+  }
+
+  switchRememberMe(checked) {
+      this.login.rememberMe = checked;
   }
 
 }

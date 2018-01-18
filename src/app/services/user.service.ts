@@ -15,6 +15,7 @@ export class UserService extends BaseService{
   }
 
   public login(login: Login): Observable<UserResponse> {
+      delete login.rememberMe;
       return this.http.post<UserResponse>(`${this.baseUri}/auth/login`, login);
   }
 

@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit {
   bsModalRef: BsModalRef;
   @Input() post: Post;
 
-  constructor(private modalService: BsModalService, private authService: AuthService) { }
+  constructor(private modalService: BsModalService, public authService: AuthService) { }
 
   ngOnInit() {
   }

@@ -13,7 +13,7 @@ export class LikeComponent implements OnInit {
 
   numberOfLikes: number;
 
-  constructor(private authService: AuthService, private likeService: LikeService) { }
+  constructor(public authService: AuthService, private likeService: LikeService) { }
 
   ngOnInit() {
     this.numberOfLikes = 0;
