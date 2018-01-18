@@ -20,7 +20,9 @@ import { PostEditComponent } from './post/post-edit/post-edit.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AppRoutingModule} from "./app-routing.module";
 import {HttpModule} from "@angular/http";
+import {HttpClientModule} from '@angular/common/http';
 import { CommentNewComponent } from './comment/comment-new/comment-new.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 @NgModule({
@@ -45,6 +47,8 @@ import { CommentNewComponent } from './comment/comment-new/comment-new.component
     ReactiveFormsModule,
     AppRoutingModule,
     HttpModule,
+    HttpClientModule,
+    FileUploadModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot()
   ],

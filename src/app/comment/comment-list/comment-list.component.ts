@@ -26,11 +26,6 @@ export class CommentListComponent implements OnInit {
     this.postService.getPost(this.postId)
         .then(post => {
           //trunc array
-
-          console.log('numcomments:'+this.numComments);
-          console.log(this.post.comments.length);
-          console.log(post.comments.length-(this.numComments?this.numComments:post.comments.length) + ' -' +  (post.comments.length-1));
-
           const comments = post.comments.slice((
             post.comments.length-(this.numComments?this.numComments:post.comments.length))
           );
@@ -38,13 +33,6 @@ export class CommentListComponent implements OnInit {
           //the order of this is important, this order will minimize the time the full comment list is visible on update
           post.comments =comments;
           this.post =post;
-          console.log(comments);
-          console.log(this.post.comments.length);
-
-          this.debug?console.log('commentlist-getpost: post, comments'):false;
-          this.debug?console.log(this.post):false;
-          this.debug?console.log(this.post.comments):false;
-
         })
         .catch(error => this.showErrors?console.log(error):false);
 
