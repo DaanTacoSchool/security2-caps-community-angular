@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit {
   bsModalRef: BsModalRef;
   @Input() post: Post;
 
-  constructor(private modalService: BsModalService, private authService: AuthService) { }
+  constructor(private modalService: BsModalService, public authService: AuthService) { }
 
   ngOnInit() {
   }
@@ -33,7 +33,8 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.authService.setUserToken("");
+      this.authService.removeUserToken();
+      this.authService.removeUserGUID();
   }
 
 }

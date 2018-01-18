@@ -44,9 +44,8 @@ import { PostOwnComponent } from './post/post-own/post-own.component';
     PostEditComponent,
     CommentNewComponent,
     LoginComponent,
-    LikePageComponent
+    LikePageComponent,
     PostOwnComponent
- 
   ],
   entryComponents: [LoginComponent, CommentComponent],
   imports: [
