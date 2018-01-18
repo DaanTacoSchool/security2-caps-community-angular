@@ -19,6 +19,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 // const URL = '/api/';
 const URL = environment.serverUrl + "/images";
 import {isNullOrUndefined} from "util";
+import {Image} from "../../shared/image.model";
 
 
 @Component({
@@ -171,7 +172,7 @@ export class PostEditComponent implements OnInit {
       this.http
       //post the form data to the url defined above and map the response. Then subscribe
       // to initiate the post. if you don't subscribe, angular wont post.
-        .post(URL, formData).subscribe(
+        .post<Image>(URL, formData).subscribe(
         //map the success function and alert the response
         (response) => {
           const url = environment.serverUrlBase + "/images/" + response.url;
