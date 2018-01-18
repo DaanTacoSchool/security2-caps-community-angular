@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs/Observable';
 import { Like } from '../shared/like.model';
 import { BaseService } from '../services/base.service';
 import { AuthService } from '../services/auth.service';
@@ -19,7 +18,7 @@ export class LikeService extends BaseService {
 
   // Returns all likes of a post
   getLikesOfPost(postId: string): Promise<Like[]> {
-    let url = `${this.serverUrl}/${postId}`;
+    const url = `${this.serverUrl}/${postId}`;
 
     return this.http.get(url, this.requestOptionsOld())
       .toPromise()
@@ -32,7 +31,7 @@ export class LikeService extends BaseService {
 
   // Returns all likes of a user
   getLikesOfUser(): Promise<Like[]> {
-    let url = `${this.serverUrl}/u`;
+      const url = `${this.serverUrl}/u`;
 
     return this.http.get(url, this.requestOptionsOld())
       .toPromise()
@@ -46,7 +45,7 @@ export class LikeService extends BaseService {
 
   // Create a like
   createLike(like: Like) {
-    let body = { postId: `${like.post}`};
+      const body = { post: `${like.post._id}`};
     return this.http.post(this.serverUrl, body, this.requestOptionsOld())
       .toPromise()
       .then(response => {
@@ -58,7 +57,7 @@ export class LikeService extends BaseService {
   
   // Delete a like
   deleteLike(like: Like) {
-    let url = `${this.serverUrl}/${like._id}`;
+      const url = `${this.serverUrl}/${like._id}`;
     return this.http.delete(url, this.requestOptionsOld())
       .toPromise()
       .then(response => {
