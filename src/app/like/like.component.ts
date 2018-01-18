@@ -34,7 +34,7 @@ export class LikeComponent implements OnInit {
 
   onLike() {
     console.log(this.postId);
-    let l = new Like(
+    const l = new Like(
       null,
       null,
       this.post

@@ -11,7 +11,6 @@ export class AuthService {
   }
 
   public setUserToken(token: string, rememberMe: boolean): void {
-      console.log(rememberMe);
       if(rememberMe){
           localStorage.setItem('token', token);
       } else {
@@ -29,14 +28,23 @@ export class AuthService {
 
     public removeUserGUID(): void {
         localStorage.removeItem('user_guid');
+        sessionStorage.removeItem('user_guid');
     }
 
-    public setUserGUID(guid: string): void {
-        localStorage.setItem('user_guid', guid);
+    public setUserGUID(guid: string, rememberMe: boolean): void {
+        if(rememberMe){
+            localStorage.setItem('user_guid', guid);
+        } else {
+            sessionStorage.setItem('user_guid', guid);
+        }
     }
 
     public getUserGUID(): string {
-        return localStorage.getItem('user_guid');
+        const guid = sessionStorage.getItem('user_guid');
+        if(guid == null || guid === "") {
+            return localStorage.getItem('user_guid');
+        }
+        return guid;
     }
 
     public isUserLoggedIn(): boolean {
