@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
     public modalRef: BsModalRef;
     public login: Login = new Login();
     public loading: boolean = false;
-    private error: { error: boolean, message: string };
+    public error: { error: boolean, message: string };
 
   constructor(public authService: AuthService, private userService: UserService) {}
 
