@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { BsDropdownModule, ModalModule  } from 'ngx-bootstrap';
+import { AlertModule, BsDropdownModule, ModalModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { PostComponent } from './post/post.component';
@@ -17,13 +17,16 @@ import { LikeComponent } from './like/like.component';
 import { LikeService } from "./like/like.service";
 import { HeaderComponent } from './header/header.component';
 import { PostEditComponent } from './post/post-edit/post-edit.component';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AppRoutingModule} from "./app-routing.module";
-import {HttpModule} from "@angular/http";
-import {HttpClientModule} from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { AppRoutingModule } from "./app-routing.module";
+import { HttpModule } from "@angular/http";
 import { CommentNewComponent } from './comment/comment-new/comment-new.component';
-import { FileUploadModule } from 'ng2-file-upload';
-
+import { LoginComponent } from './login/login.component';
+import { AuthService } from "./services/auth.service";
+import { HttpClientModule } from "@angular/common/http";
+import { UserService } from "./services/user.service";
+import { LikePageComponent } from './like/like-page/like-page.component';
+import { PostOwnComponent } from './post/post-own/post-own.component';
 
 @NgModule({
   declarations: [
@@ -39,8 +42,12 @@ import { FileUploadModule } from 'ng2-file-upload';
     LikeComponent,
     HeaderComponent,
     PostEditComponent,
-    CommentNewComponent
+    CommentNewComponent,
+    LoginComponent,
+    LikePageComponent,
+    PostOwnComponent
   ],
+  entryComponents: [LoginComponent, CommentComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -48,11 +55,11 @@ import { FileUploadModule } from 'ng2-file-upload';
     AppRoutingModule,
     HttpModule,
     HttpClientModule,
-    FileUploadModule,
     BsDropdownModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    AlertModule.forRoot()
   ],
-  providers: [PostService, CommentService, LikeService],
+  providers: [PostService, CommentService, LikeService, AuthService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

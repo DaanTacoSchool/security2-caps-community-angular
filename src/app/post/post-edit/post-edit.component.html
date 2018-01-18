@@ -13,19 +13,6 @@
     </div>
     <div class="col-xs-12">
       <div class="form-group">
-        <label class="white" for="made_by">made by</label>
-        <input
-          type="text"
-          id="made_by"
-          formControlName="made_by"
-          class="form-control"
-          [(ngModel)]="post.made_by"
-          required
-          #made_by>
-      </div>
-    </div>
-    <div class="col-xs-12">
-      <div class="form-group">
         <label class="white" for="description">Description</label>
         <textarea
           type="text"
@@ -45,15 +32,12 @@
       </button>
     </div>
     <div class="col-xs-12">
-      <div class="form-group">
-        <div class="col-xs-12">
-          <button
-            type="submit"
-            class="btn btn-success" [disabled]="!postForm.valid">Post!
-          </button>
-          <button type="button" class="btn btn-danger" (click)="modalRef.hide()">Cancel</button>
-        </div>
-      </div>
+      <button
+        type="submit"
+        class="btn btn-success" [disabled]="loading || !postForm.valid"><i *ngIf="loading"
+                                                                           class='fa fa-spinner fa-spin '></i>Post!
+      </button>
+      <button type="button" class="btn btn-danger" (click)="modalRef.hide()">Cancel</button>
     </div>
   </form>
 </div>

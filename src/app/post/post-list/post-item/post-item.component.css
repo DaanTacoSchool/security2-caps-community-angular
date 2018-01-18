@@ -9,6 +9,11 @@
 
 .dropdown-icon:after {
     content: '\2807';
-    font-size: 2em;
+    font-size: 1.4rem;
     color: #2e2e2e
+}
+
+.no-btn {
+    box-shadow: none !important;
+    color: rgb(131, 130, 130);
 }

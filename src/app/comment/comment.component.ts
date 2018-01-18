@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {Post} from "../post/post.model";
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { BsModalService } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-comment',
@@ -11,8 +13,11 @@ export class CommentComponent implements OnInit {
    @Input() post: Post;
    @Input() postId: string;
    @Input() numComments: number;
+  modalRef: BsModalRef;
   //private showErrors = environment.displayErrors;
   private debug = environment.debug;
+  bsModalRef: BsModalRef;
+
 
   constructor() { }
 
@@ -24,5 +29,6 @@ export class CommentComponent implements OnInit {
     //   this.numComments
     // }
   }
+
 
 }

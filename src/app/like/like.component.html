@@ -1,3 +1,7 @@
-<p>
-  like works!
-</p>
+<span *ngIf="!like" class="fa fa-heart-o fa-lg" aria-hidden="true" (click)="onLike()"></span>
+<span *ngIf="like" class="fa fa-heart fa-lg" aria-hidden="true" (click)="onUnLike()"></span>
+
+<!-- <span *ngIf="numberOfLikes == 1;else other_content">{{ numberOfLikes }} like </span>
+<ng-template #other_content>{{ numberOfLikes}} likes</ng-template> -->
+
+<span class="number mx-auto">{{numberOfLikes}}</span>
