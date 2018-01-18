@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { LikeService } from './like.service';
 import { Like } from '../shared/like.model';
 import { Post } from '../post/post.model';
-import { post } from 'selenium-webdriver/http';
 import {AuthService} from "../services/auth.service";
 import { forEach } from '@angular/router/src/utils/collection';
 
