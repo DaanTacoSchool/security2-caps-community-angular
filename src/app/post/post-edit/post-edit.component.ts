@@ -30,6 +30,7 @@ import {ImageService} from "../../services/image.service";
 })
 export class PostEditComponent implements OnInit {
     loading: boolean;
+    error: { error: boolean, message: string };
   modalRef: BsModalRef;
   posts: Post[];
   postId: string; // for editing
@@ -51,7 +52,8 @@ export class PostEditComponent implements OnInit {
               private imageService: ImageService) { this.initForm(); }
 
   ngOnInit() {
-    this.loading = false;
+      this.error = { error: false, message: ''};
+      this.loading = false;
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -135,53 +137,105 @@ export class PostEditComponent implements OnInit {
     );
 
     if ((!isNullOrUndefined(this.postId) && this.postId !== '') || this.editMode) {
+
         this.debug?console.log('to postservice updatepost'):false;
-        this.postService.updatePost(this.postId,newPost).then((post)=>{
-            this.loading = false;
-            this.modalRef.hide();
-        })
-        .catch((error) => {
-            this.loading = false;
-            this.showError?console.log(error):false;
-        });
+
+        //locate the file element meant for the file upload.
+        const inputEl: HTMLInputElement = this.el.nativeElement.querySelector('#photo');
+        //get the total amount of files attached to the file input.
+        const fileCount: number = inputEl.files.length;
+        //create a new fromdata instance
+        const formData = new FormData();
+        //check if the filecount is greater than zero, to be sure a file was selected.
+
+        if (fileCount > 0) { // a file was selected
+            //append the key name 'photo' with the first file in the element
+            formData.append('photo', inputEl.files.item(0));
+            //call the angular http method
+            //post the form data to the url defined above and map the response. Then subscribe
+            // to initiate the post. if you don't subscribe, angular wont post.
+            this.imageService.uploadImage(formData).subscribe(
+                //map the success function and alert the response
+                (response) => {
+                    const url = environment.serverUrlBase + "/images/" + response.url;
+                    this.upload_image_path = url;
+                    newPost.image_path = url;
+
+                    this.postService.updatePost(this.postId, newPost)
+                        .then((post)=>{
+                            this.post = post;
+                            this.loading = false;
+                            this.modalRef.hide();
+                        })
+                        .catch((error) => {
+                            this.loading = false;
+                            this.error = { error: true, message: 'Post could not be updated!'};
+                            this.showError?console.log(error):false;
+                        });
+                },
+                (imageError) => {
+                    this.error = { error: true, message: 'Could not upload the image!'};
+                    console.log(imageError);
+
+                });
+        } else {
+            delete newPost.image_path;
+            this.postService.updatePost(this.postId, newPost)
+                .then((post)=>{
+                    this.post = post;
+                    this.loading = false;
+                    this.modalRef.hide();
+                })
+                .catch((error) => {
+                    this.loading = false;
+                    this.error = { error: true, message: 'Post could not be updated!'};
+                    this.showError?console.log(error):false;
+                });
+        }
+
+
     } else {
-      this.postService.createPost(newPost)
-          .then((post)=>{
-              this.post = post;
-              this.loading = false;
-              this.modalRef.hide();
-          })
-          .catch((error) => {
-              this.loading = false;
-              this.showError?console.log(error):false;
-          });
+
+        //locate the file element meant for the file upload.
+        const inputEl: HTMLInputElement = this.el.nativeElement.querySelector('#photo');
+        //get the total amount of files attached to the file input.
+        const fileCount: number = inputEl.files.length;
+        //create a new fromdata instance
+        const formData = new FormData();
+        //check if the filecount is greater than zero, to be sure a file was selected.
+
+        if (fileCount > 0) { // a file was selected
+            //append the key name 'photo' with the first file in the element
+            formData.append('photo', inputEl.files.item(0));
+            //call the angular http method
+            //post the form data to the url defined above and map the response. Then subscribe
+            // to initiate the post. if you don't subscribe, angular wont post.
+            this.imageService.uploadImage(formData).subscribe(
+                //map the success function and alert the response
+                (response) => {
+                    const url = environment.serverUrlBase + "/images/" + response.url;
+                    this.upload_image_path = url;
+                    newPost.image_path = url;
+
+                    this.postService.createPost(newPost)
+                        .then((post)=>{
+                            this.post = post;
+                            this.loading = false;
+                            this.modalRef.hide();
+                        })
+                        .catch((error) => {
+                            this.loading = false;
+                            this.error = { error: true, message: 'Post could not be created!'};
+                            this.showError?console.log(error):false;
+                        });
+                },
+                (imageError) => {
+                    this.error = { error: true, message: 'Could not upload the image!'};
+                    console.log(imageError);
+
+                });
+        }
     }
     this.onCancel();
   }
-
-  upload() {
-    //locate the file element meant for the file upload.
-    const inputEl: HTMLInputElement = this.el.nativeElement.querySelector('#photo');
-    //get the total amount of files attached to the file input.
-    const fileCount: number = inputEl.files.length;
-    //create a new fromdata instance
-    const formData = new FormData();
-    //check if the filecount is greater than zero, to be sure a file was selected.
-    if (fileCount > 0) { // a file was selected
-      //append the key name 'photo' with the first file in the element
-      formData.append('photo', inputEl.files.item(0));
-      //call the angular http method
-      //post the form data to the url defined above and map the response. Then subscribe
-      // to initiate the post. if you don't subscribe, angular wont post.
-        this.imageService.uploadImage(formData).subscribe(
-        //map the success function and alert the response
-        (response) => {
-          const url = environment.serverUrlBase + "/images/" + response.url;
-
-          this.upload_image_path = url;
-        },
-        (error) => console.log(error));
-    }
-  }
-
 }
