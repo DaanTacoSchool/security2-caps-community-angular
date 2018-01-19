@@ -37,9 +37,14 @@ export class BaseService {
         };
     }
 
-    protected requestOptions(): any {
+    protected requestOptions(): {} {
+        const headers: {} = {};
+        if (this.authService.isUserLoggedIn()) {
+            headers['Authorization'] = `Bearer ${this.authService.getUserToken()}`;
+        }
+
         return {
-            headers: new HttpHeaders(this.requestHeaders()),
+            headers: new HttpHeaders(headers),
         };
     }
 

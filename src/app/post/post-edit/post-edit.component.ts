@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, Input } from '@angular/core';
+//import the native angular http and respone libraries
+import { HttpClient } from '@angular/common/http';
+//import the do function to be used with the http library.
+import "rxjs/add/operator/do";
+//import the map function to be used with the http library
+import "rxjs/add/operator/map";
+
 import {Post} from "../post.model";
 import {FormControl, FormGroup} from "@angular/forms";
 import {Subscription} from "rxjs/Subscription";
@@ -9,7 +16,12 @@ import {Comment} from "../../comment/comment.model";
 import {User} from "../../shared/user.model";
 import {Like} from "../../shared/like.model";
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+// const URL = '/api/';
+const URL = environment.serverUrl + "/images";
 import {isNullOrUndefined} from "util";
+import {Image} from "../../shared/image.model";
+import {ImageService} from "../../services/image.service";
+
 
 @Component({
   selector: 'app-post-edit',
@@ -24,6 +36,7 @@ export class PostEditComponent implements OnInit {
   post: Post;
   editMode = false;
   postForm: FormGroup;
+  upload_image_path= "";
   private debug = environment.debug;
   private showError = environment.displayErrors;
 
@@ -32,7 +45,10 @@ export class PostEditComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private postService: PostService,
-              private router: Router) { this.initForm(); }
+              private router: Router,
+              private http: HttpClient,
+              private el: ElementRef,
+              private imageService: ImageService) { this.initForm(); }
 
   ngOnInit() {
     this.loading = false;
@@ -107,17 +123,17 @@ export class PostEditComponent implements OnInit {
       tmpLikes = this.post.likes;
     }
 
-    this.debug?console.log(tmpComments):false;
     const newPost = new Post(
       tmpId,
       this.postForm.value['title'],
       this.postForm.value['description'],
       '',
-      this.postForm.value['image_path'],
+      this.upload_image_path,
       tmpComments,
       tmpUser,
       tmpLikes
     );
+
     if ((!isNullOrUndefined(this.postId) && this.postId !== '') || this.editMode) {
         this.debug?console.log('to postservice updatepost'):false;
         this.postService.updatePost(this.postId,newPost).then((post)=>{
@@ -129,7 +145,6 @@ export class PostEditComponent implements OnInit {
             this.showError?console.log(error):false;
         });
     } else {
-      this.debug?console.log('to postservice createpost'):false;
       this.postService.createPost(newPost)
           .then((post)=>{
               this.post = post;
@@ -142,6 +157,31 @@ export class PostEditComponent implements OnInit {
           });
     }
     this.onCancel();
+  }
+
+  upload() {
+    //locate the file element meant for the file upload.
+    const inputEl: HTMLInputElement = this.el.nativeElement.querySelector('#photo');
+    //get the total amount of files attached to the file input.
+    const fileCount: number = inputEl.files.length;
+    //create a new fromdata instance
+    const formData = new FormData();
+    //check if the filecount is greater than zero, to be sure a file was selected.
+    if (fileCount > 0) { // a file was selected
+      //append the key name 'photo' with the first file in the element
+      formData.append('photo', inputEl.files.item(0));
+      //call the angular http method
+      //post the form data to the url defined above and map the response. Then subscribe
+      // to initiate the post. if you don't subscribe, angular wont post.
+        this.imageService.uploadImage(formData).subscribe(
+        //map the success function and alert the response
+        (response) => {
+          const url = environment.serverUrlBase + "/images/" + response.url;
+
+          this.upload_image_path = url;
+        },
+        (error) => console.log(error));
+    }
   }
 
 }
