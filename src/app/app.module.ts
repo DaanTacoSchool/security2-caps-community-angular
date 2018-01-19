@@ -25,6 +25,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthService } from "./services/auth.service";
 import { HttpClientModule } from "@angular/common/http";
 import { UserService } from "./services/user.service";
+import { ImageService } from "./services/image.service";
 import { LikePageComponent } from './like/like-page/like-page.component';
 import { PostOwnComponent } from './post/post-own/post-own.component';
 
@@ -59,7 +60,7 @@ import { PostOwnComponent } from './post/post-own/post-own.component';
     ModalModule.forRoot(),
     AlertModule.forRoot()
   ],
-  providers: [PostService, CommentService, LikeService, AuthService, UserService],
+  providers: [PostService, CommentService, LikeService, AuthService, UserService, ImageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

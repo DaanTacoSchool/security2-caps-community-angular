@@ -20,6 +20,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 const URL = environment.serverUrl + "/images";
 import {isNullOrUndefined} from "util";
 import {Image} from "../../shared/image.model";
+import {ImageService} from "../../services/image.service";
 
 
 @Component({
@@ -46,7 +47,8 @@ export class PostEditComponent implements OnInit {
               private postService: PostService,
               private router: Router,
               private http: HttpClient,
-              private el: ElementRef) { this.initForm(); }
+              private el: ElementRef,
+              private imageService: ImageService) { this.initForm(); }
 
   ngOnInit() {
     this.loading = false;
@@ -169,10 +171,9 @@ export class PostEditComponent implements OnInit {
       //append the key name 'photo' with the first file in the element
       formData.append('photo', inputEl.files.item(0));
       //call the angular http method
-      this.http
       //post the form data to the url defined above and map the response. Then subscribe
       // to initiate the post. if you don't subscribe, angular wont post.
-        .post<Image>(URL, formData).subscribe(
+        this.imageService.uploadImage(formData).subscribe(
         //map the success function and alert the response
         (response) => {
           const url = environment.serverUrlBase + "/images/" + response.url;
