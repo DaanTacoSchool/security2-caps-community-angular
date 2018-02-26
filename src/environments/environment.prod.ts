@@ -4,8 +4,8 @@ export const environment = {
   serverUrl: 'https://security2-node.herokuapp.com/api/v1',
   serverUrlBase: 'https://security2-node.herokuapp.com',
   //specify debug level
-  debug: false,
-  debug1: false,
+  debug: true,
+  debug1: true,
   displayErrors: true,
   log: true
 };
