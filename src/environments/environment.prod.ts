@@ -6,5 +6,6 @@ export const environment = {
   //specify debug level
   debug: false,
   debug1: false,
-  displayErrors: true
+  displayErrors: true,
+  log: true
 };

@@ -11,5 +11,7 @@ export const environment = {
   //debug lvl 0
   debug: false,
   debug1: true,
-  displayErrors: true
+  displayErrors: true,
+  log: true
 };
+
