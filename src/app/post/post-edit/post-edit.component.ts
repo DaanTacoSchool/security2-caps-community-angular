@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, Input } from '@angular/core';
+//import the native angular http and respone libraries
+import { HttpClient } from '@angular/common/http';
+//import the do function to be used with the http library.
+import "rxjs/add/operator/do";
+//import the map function to be used with the http library
+import "rxjs/add/operator/map";
+
 import {Post} from "../post.model";
 import {FormControl, FormGroup} from "@angular/forms";
 import {Subscription} from "rxjs/Subscription";
@@ -9,6 +16,12 @@ import {Comment} from "../../comment/comment.model";
 import {User} from "../../shared/user.model";
 import {Like} from "../../shared/like.model";
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+// const URL = '/api/';
+const URL = environment.serverUrl + "/images";
+import {isNullOrUndefined} from "util";
+import {Image} from "../../shared/image.model";
+import {ImageService} from "../../services/image.service";
+
 
 @Component({
   selector: 'app-post-edit',
@@ -16,12 +29,15 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
   styleUrls: ['./post-edit.component.css']
 })
 export class PostEditComponent implements OnInit {
+    loading: boolean;
+    error: { error: boolean, message: string };
   modalRef: BsModalRef;
   posts: Post[];
   postId: string; // for editing
   post: Post;
   editMode = false;
   postForm: FormGroup;
+  upload_image_path= "";
   private debug = environment.debug;
   private showError = environment.displayErrors;
 
@@ -30,9 +46,14 @@ export class PostEditComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private postService: PostService,
-              private router: Router) { this.initForm(); }
+              private router: Router,
+              private http: HttpClient,
+              private el: ElementRef,
+              private imageService: ImageService) { this.initForm(); }
 
   ngOnInit() {
+      this.error = { error: false, message: ''};
+      this.loading = false;
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -54,7 +75,7 @@ export class PostEditComponent implements OnInit {
   }
 
   private initForm() {
-    let pTitle='', pDesc = '', pMadeBy='',pImg='';
+    let pTitle='', pDesc = '', pImg='';
     let pComments = null, pUser  =null, pLikes = null;
 
     if (this.editMode) {
@@ -62,7 +83,6 @@ export class PostEditComponent implements OnInit {
         .then(post => { this.post = post;
           pTitle = this.post.title;
           pDesc = this.post.description;
-          pMadeBy = this.post.made_by;
           pImg = this.post.image_path;
           pComments = this.post.comments?this.post.comments:null;
           pUser = this.post.user?this.post.user:null;
@@ -77,7 +97,6 @@ export class PostEditComponent implements OnInit {
     this.postForm = new FormGroup({
       'title': new FormControl(pTitle),
       'description': new FormControl(pDesc),
-      'made_by': new FormControl(pMadeBy),
       'image_path': new FormControl(pImg),
     });
 
@@ -88,6 +107,7 @@ export class PostEditComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loading = true;
     this.debug?console.log('on submit post-edit'):false;
     let tmpId:string;
     let tmpLikes: Like[];
@@ -105,27 +125,117 @@ export class PostEditComponent implements OnInit {
       tmpLikes = this.post.likes;
     }
 
-    this.debug?console.log(tmpComments):false;
     const newPost = new Post(
       tmpId,
       this.postForm.value['title'],
       this.postForm.value['description'],
-      this.postForm.value['made_by'],
-      this.postForm.value['image_path'],
+      '',
+      this.upload_image_path,
       tmpComments,
       tmpUser,
       tmpLikes
     );
-    if (this.editMode) {
-      this.debug?console.log('to postservice updatepost'):false;
-      this.postService.updatePost(this.postId,newPost); // ignore promise
+
+    if ((!isNullOrUndefined(this.postId) && this.postId !== '') || this.editMode) {
+
+        this.debug?console.log('to postservice updatepost'):false;
+
+        //locate the file element meant for the file upload.
+        const inputEl: HTMLInputElement = this.el.nativeElement.querySelector('#photo');
+        //get the total amount of files attached to the file input.
+        const fileCount: number = inputEl.files.length;
+        //create a new fromdata instance
+        const formData = new FormData();
+        //check if the filecount is greater than zero, to be sure a file was selected.
+
+        if (fileCount > 0) { // a file was selected
+            //append the key name 'photo' with the first file in the element
+            formData.append('photo', inputEl.files.item(0));
+            //call the angular http method
+            //post the form data to the url defined above and map the response. Then subscribe
+            // to initiate the post. if you don't subscribe, angular wont post.
+            this.imageService.uploadImage(formData).subscribe(
+                //map the success function and alert the response
+                (response) => {
+                    const url = environment.serverUrlBase + "/images/" + response.url;
+                    this.upload_image_path = url;
+                    newPost.image_path = url;
+
+                    this.postService.updatePost(this.postId, newPost)
+                        .then((post)=>{
+                            this.post = post;
+                            this.loading = false;
+                            this.modalRef.hide();
+                        })
+                        .catch((error) => {
+                            this.loading = false;
+                            this.error = { error: true, message: 'Post could not be updated!'};
+                            this.showError?console.log(error):false;
+                        });
+                },
+                (imageError) => {
+                    this.error = { error: true, message: 'Could not upload the image!'};
+                    console.log(imageError);
+
+                });
+        } else {
+            delete newPost.image_path;
+            this.postService.updatePost(this.postId, newPost)
+                .then((post)=>{
+                    this.post = post;
+                    this.loading = false;
+                    this.modalRef.hide();
+                })
+                .catch((error) => {
+                    this.loading = false;
+                    this.error = { error: true, message: 'Post could not be updated!'};
+                    this.showError?console.log(error):false;
+                });
+        }
+
+
     } else {
-      this.debug?console.log('to postservice createpost'):false;
-      this.postService.createPost(newPost)
-          .then((post)=>{ this.post = post;})
-          .catch((error) => { this.showError?console.log(error):false;});
+
+        //locate the file element meant for the file upload.
+        const inputEl: HTMLInputElement = this.el.nativeElement.querySelector('#photo');
+        //get the total amount of files attached to the file input.
+        const fileCount: number = inputEl.files.length;
+        //create a new fromdata instance
+        const formData = new FormData();
+        //check if the filecount is greater than zero, to be sure a file was selected.
+
+        if (fileCount > 0) { // a file was selected
+            //append the key name 'photo' with the first file in the element
+            formData.append('photo', inputEl.files.item(0));
+            //call the angular http method
+            //post the form data to the url defined above and map the response. Then subscribe
+            // to initiate the post. if you don't subscribe, angular wont post.
+            this.imageService.uploadImage(formData).subscribe(
+                //map the success function and alert the response
+                (response) => {
+                    const url = environment.serverUrlBase + "/images/" + response.url;
+                    this.upload_image_path = url;
+                    newPost.image_path = url;
+
+                    this.postService.createPost(newPost)
+                        .then((post)=>{
+                            this.post = post;
+                            this.loading = false;
+                            this.modalRef.hide();
+                        })
+                        .catch((error) => {
+                            this.loading = false;
+                            this.error = { error: true, message: 'Post could not be created!'};
+                            this.showError?console.log(error):false;
+                        });
+                },
+                (imageError) => {
+                    this.error = { error: true, message: 'Could not upload the image!'};
+                    console.log(imageError);
+
+                });
+        }
     }
     this.onCancel();
   }
-
 }

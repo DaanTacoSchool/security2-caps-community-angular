@@ -21,7 +21,7 @@ export class PostListComponent implements OnInit {
     this.postsSubscription = this.postService.postsChanged
       .subscribe(
         (posts: Post[]) => {
-          this.posts = posts;
+          this.posts = posts.filter(p => p !== undefined);
         }
       );
     this.postService.getPosts()

@@ -3,6 +3,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { Post } from '../post/post.model';
 import { PostEditComponent } from '../post/post-edit/post-edit.component';
+import { LoginComponent } from "../login/login.component";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-header',
@@ -13,7 +15,7 @@ export class HeaderComponent implements OnInit {
   bsModalRef: BsModalRef;
   @Input() post: Post;
 
-  constructor(private modalService: BsModalService) { }
+  constructor(private modalService: BsModalService, public authService: AuthService) { }
 
   ngOnInit() {
   }
@@ -23,6 +25,16 @@ export class HeaderComponent implements OnInit {
     this.bsModalRef.content.post = new Post("", "", "", "", "", [], null, []);
     this.bsModalRef.content.postId = null;
     this.bsModalRef.content.modalRef = this.bsModalRef;
-}
+  }
+
+  openLoginModal() {
+    const bsModalRef = this.modalService.show(LoginComponent, {class: 'modal-lg'});
+    bsModalRef.content.modalRef = bsModalRef;
+  }
+
+  logout() {
+      this.authService.removeUserToken();
+      this.authService.removeUserGUID();
+  }
 
 }

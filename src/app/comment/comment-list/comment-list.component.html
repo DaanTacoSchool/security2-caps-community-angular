@@ -1,8 +1,7 @@
-
-<div class="col-md-12">
-  <div class="fade-in">
+<div *ngIf="post !== undefined && post.comments !== undefined">
   <app-comment-item
-    *ngFor="let comment of post.comments;"
+    *ngFor="let comment of post.comments"
     [comment]="comment"></app-comment-item>
-  </div>
 </div>
+
+

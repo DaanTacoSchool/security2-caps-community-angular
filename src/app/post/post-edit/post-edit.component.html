@@ -1,65 +1,46 @@
 <div *ngIf="post !== undefined" class="modal-body">
-    <form [formGroup]="postForm" (ngSubmit)="onSubmit()" #f="ngForm">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label class="white" for="title">Title</label>
-            <input
-              type="text"
-              id="title"
-              formControlName="title"
-              class="form-control" [(ngModel)]="post.title"
-              required="true" >
-          </div>
-        </div>
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label class="white" for="made_by">made by</label>
-            <input
-              type="text"
-              id="made_by"
-              formControlName="made_by"
-              class="form-control"
-              [(ngModel)]="post.made_by"
-              required
-              #made_by>
-          </div>
-        </div>
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label class="white" for="description">Description</label>
-            <textarea
-              type="text"
-              id="description"
-              class="form-control"
-              formControlName="description"
-              [(ngModel)]="post.description"
-              rows="6"></textarea>
-          </div>
-        </div>
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label class="white" for="image_path">image</label>
-            <input
-              type="text"
-              id="image_path"
-              formControlName="image_path"
-              class="form-control"
-              [(ngModel)]="post.image_path"
-              required="true" >
-          </div>
-        </div>
-        <div class="col-xs-12">
-          <button
-            type="submit"
-            class="btn btn-success" [disabled]="!postForm.valid" >Post!</button>
-          <button type="button" class="btn btn-danger" (click)="modalRef.hide()">Cancel</button>
-        </div>
-      <!--<div class="row">-->
-        <!--<div class="col-xs-12">-->
-          <!--<a class="btn btn-primary" (click)="goToOverview()">go to card overview</a>-->
-        <!--</div>-->
-      <!--</div>-->
-    </form>
-  </div>
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()" #f="ngForm">
+    <div class="col-xs-12" *ngIf="error.error">
+      <alert type="danger">
+        {{error.message}}
+      </alert>
+    </div>
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label class="white" for="title">Title</label>
+        <input
+          type="text"
+          id="title"
+          formControlName="title"
+          class="form-control" [(ngModel)]="post.title"
+          required="true">
+      </div>
+    </div>
+    <div class="col-xs-12">
+      <div class="form-group">
+        <label class="white" for="description">Description</label>
+        <textarea
+          type="text"
+          id="description"
+          class="form-control"
+          formControlName="description"
+          [(ngModel)]="post.description"
+          rows="6"></textarea>
+      </div>
+    </div>
+    <div class="col-xs-12">
+      <!-- File input for upload without using the plugin. -->
+      <input id="photo" type="file" accept="image/*"/>
+    </div><br>
+    <div class="col-xs-12">
+      <button
+        type="submit"
+        class="btn btn-success" [disabled]="loading || !postForm.valid"><i *ngIf="loading"
+                                                                           class='fa fa-spinner fa-spin '></i>Post!
+      </button>
+      <button type="button" class="btn btn-danger" (click)="modalRef.hide()">Cancel</button>
+    </div>
+  </form>
+</div>
 
 

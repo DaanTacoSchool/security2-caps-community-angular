@@ -1,10 +1,13 @@
+import { Post } from "../post/post.model";
+import { User } from "./user.model";
+
 
 export class Like {
 
   constructor(
     public _id: string,
-    public userId: string,
-    public postId: string
+    public user: User,
+    public post: Post
   ) { }
 
 }

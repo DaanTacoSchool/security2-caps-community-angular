@@ -1,0 +1,11 @@
+.upload-button {
+  vertical-align: bottom;
+  background-color: #eceeef;
+  border: 1px solid rgba(0,0,0,.15);
+  color: #464a4c;
+}
+
+.my-drop-zone { border: dotted 3px lightgray; }
+.nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
+.another-file-over-class { border: dotted 3px green; }
+
