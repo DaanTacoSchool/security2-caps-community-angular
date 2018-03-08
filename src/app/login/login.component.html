@@ -36,6 +36,9 @@
           (click)="switchRememberMe($event.target.checked)">
       </div>
     </div>
+
+    <re-captcha site_key="6LcWcEsUAAAAAAAp6Z8zZg96QGxjfMEYN8uEmWcW"></re-captcha>
+
     <div class="col-xs-12">
       <button type="submit" [disabled]="loading" class="btn btn-success"><i *ngIf="loading" class='fa fa-spinner fa-spin '></i>Login</button>
       <button type="button" class="btn btn-danger" (click)="modalRef.hide()">Cancel</button>
