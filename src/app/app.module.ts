@@ -28,6 +28,7 @@ import { UserService } from "./services/user.service";
 import { ImageService } from "./services/image.service";
 import { LikePageComponent } from './like/like-page/like-page.component';
 import { PostOwnComponent } from './post/post-own/post-own.component';
+import { ReCaptchaModule } from 'angular2-recaptcha';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { PostOwnComponent } from './post/post-own/post-own.component';
     HttpClientModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+    ReCaptchaModule
   ],
   providers: [PostService, CommentService, LikeService, AuthService, UserService, ImageService],
   bootstrap: [AppComponent]
